@@ -3,7 +3,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 public class Main extends JFrame{
-	public Image card1 = new ImageIcon(Main.class.getResource("./images/C1.png")).getImage();
+	private String cardex = "./images/C10.png";
+	public Image card1 = new ImageIcon(Main.class.getResource(cardex)).getImage();
 	public Image changeCard1 = card1.getScaledInstance(75, 124, Image.SCALE_SMOOTH);
 	public ImageIcon card = new ImageIcon(changeCard1);
 	private JTextArea textArea;
@@ -14,6 +15,7 @@ public class Main extends JFrame{
     private JScrollPane scrollPane;
     private JButton heatButton;
     private JButton stayButton;
+    private JButton resetButton;
     private JPanel ButtonPanel;
     private JPanel GamePanel;
     private Image tableImg = new ImageIcon(Main.class.getResource("./images/pokertable.jpeg")).getImage();
@@ -26,6 +28,8 @@ public class Main extends JFrame{
     private JLabel u1c3;
     private JLabel u1c2;
     private JLabel u1c1;
+    private Boolean vis = true;
+    private int cardCount =1;
 	public Main() {
 		getContentPane().setBackground(new Color(255, 255, 255));
 		Myaction action = new Myaction();
@@ -83,9 +87,13 @@ public class Main extends JFrame{
 		stayButton = new JButton("스테이");
 		stayButton.setBounds(196, 10, 161, 53);
 		ButtonPanel.add(stayButton);
+		
+		resetButton = new JButton("리셋");
+		resetButton.setBounds(330,10,161,53);
+		ButtonPanel.add(resetButton);
 		stayButton.addActionListener(action);
 		heatButton.addActionListener(action);
-		
+		resetButton.addActionListener(action);
 		
 		GamePanel = new JPanel() {
 			public void paint(Graphics g) {
@@ -102,26 +110,32 @@ public class Main extends JFrame{
 		};
 		u1c6 = new JLabel(card);
 		u1c6.setBounds(55, 569, 76, 124);
+		u1c6.setVisible(false);
 		getContentPane().add(u1c6);
 		
 		u1c5 = new JLabel(card);
 		u1c5.setBounds(55, 536, 76, 124);
+		u1c5.setVisible(false);
 		getContentPane().add(u1c5);
 		
 		u1c4 = new JLabel(card);
 		u1c4.setBounds(55, 503, 76, 124);
+		u1c4.setVisible(false);
 		getContentPane().add(u1c4);
 		
 		u1c3 = new JLabel(card);
 		u1c3.setBounds(55, 470, 76, 124);
+		u1c3.setVisible(false);
 		getContentPane().add(u1c3);
 		
 		u1c2 = new JLabel(card);
 		u1c2.setBounds(55, 437, 76, 124);
+		u1c2.setVisible(false);
 		getContentPane().add(u1c2);
 		
 		u1c1 = new JLabel(card);
 		u1c1.setBounds(55, 404, 76, 124);
+		u1c1.setVisible(false);
 		getContentPane().add(u1c1);
 		
 		GamePanel.setBounds(0, 0, 964, 766);
@@ -179,15 +193,43 @@ public class Main extends JFrame{
 				else
 					checkSum+=10;
 				String card_name = String.format("./images/"+card_Type+card_num+".png");
-				Image card = new ImageIcon(Main.class.getResource(card_name)).getImage();
-				Image changeCard = card1.getScaledInstance(75, 124, Image.SCALE_SMOOTH);
-				ImageIcon cardImg = new ImageIcon(changeCard);
-				u1c6.setIcon(cardImg);
+				switch(cardCount) {
+				case 1:
+					u1c1.setVisible(true);
+					break;
+				case 2:
+					u1c2.setVisible(true);
+					break;
+				case 3:
+					u1c3.setVisible(true);
+					break;
+				case 4:
+					u1c4.setVisible(true);
+					break;
+				case 5:
+					u1c5.setVisible(true);
+					break;
+				case 6:
+					u1c6.setVisible(true);
+					break;
+				}
 				AppendText(card_name);
+
 				if(checkSum<=21)
 					u1sum.setText(Integer.toString(checkSum));
 				else
 					u1sum.setText("BURST!!!");
+				cardCount++;
+			}else if(e.getSource()==resetButton) {
+				u1c1.setVisible(false);
+				u1c2.setVisible(false);
+				u1c3.setVisible(false);
+				u1c4.setVisible(false);
+				u1c5.setVisible(false);
+				u1c6.setVisible(false);
+				cardCount=1;
+				checkSum=0;
+				u1sum.setText("0");
 			}
 		}
 	}
