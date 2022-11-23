@@ -30,6 +30,7 @@ public class Main extends JFrame{
     private JLabel u1c1;
     private Boolean vis = true;
     private int cardCount =1;
+    private JLabel nameLabel;
 	public Main() {
 		getContentPane().setBackground(new Color(255, 255, 255));
 		Myaction action = new Myaction();
@@ -37,6 +38,12 @@ public class Main extends JFrame{
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		
+		nameLabel = new JLabel();
+		UserName = "test";
+		nameLabel.setText(UserName);
+		nameLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 30));
+		nameLabel.setBounds(38,332,122,38);
+		getContentPane().add(nameLabel);
 		u1sum = new JLabel();
 		u1sum.setBackground(Color.WHITE);
 		u1sum.setForeground(Color.RED);
