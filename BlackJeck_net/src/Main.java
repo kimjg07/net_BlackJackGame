@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 public class Main extends JFrame{
 	public Image card1 = new ImageIcon(Main.class.getResource("./images/C1.png")).getImage();
-	public Image changeCard1 = card1.getScaledInstance(75, 130, Image.SCALE_SMOOTH);
+	public Image changeCard1 = card1.getScaledInstance(75, 124, Image.SCALE_SMOOTH);
 	public ImageIcon card = new ImageIcon(changeCard1);
 	private JTextArea textArea;
 	private JTextField textField;
@@ -17,12 +17,29 @@ public class Main extends JFrame{
     private JPanel ButtonPanel;
     private JPanel GamePanel;
     private Image tableImg = new ImageIcon(Main.class.getResource("./images/pokertable.jpeg")).getImage();
+    private int checkSum;
+    final static BasicStroke stroke = new BasicStroke(4.0f);
+    private JLabel u1sum;
+    private JLabel u1c6;
+    private JLabel u1c5;
+    private JLabel u1c4;
+    private JLabel u1c3;
+    private JLabel u1c2;
+    private JLabel u1c1;
 	public Main() {
 		getContentPane().setBackground(new Color(255, 255, 255));
 		Myaction action = new Myaction();
 		setSize(1280,900);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
+		
+		u1sum = new JLabel();
+		u1sum.setBackground(Color.WHITE);
+		u1sum.setForeground(Color.RED);
+		u1sum.setText("0");
+		u1sum.setFont(new Font("맑은 고딕", Font.PLAIN, 30));
+		u1sum.setBounds(38, 707, 122, 38);
+		getContentPane().add(u1sum);
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(964, 0, 300, 861);
@@ -69,14 +86,50 @@ public class Main extends JFrame{
 		stayButton.addActionListener(action);
 		heatButton.addActionListener(action);
 		
+		
 		GamePanel = new JPanel() {
 			public void paint(Graphics g) {
+				Graphics2D g2 = (Graphics2D)g;
+				g2.setStroke( stroke );
 				g.drawImage(tableImg,0,0,964,766,this);
+				g.setColor(Color.BLACK);
+				g2.drawRect(63,24,547,164);
+				g2.drawRect(25,332,155,423);
+				g2.drawRect(270,332,155,423);
+				g2.drawRect(515,332,155,423);
+				g2.drawRect(760,332,155,423);
 			}
 		};
+		u1c6 = new JLabel(card);
+		u1c6.setBounds(55, 569, 76, 124);
+		getContentPane().add(u1c6);
+		
+		u1c5 = new JLabel(card);
+		u1c5.setBounds(55, 536, 76, 124);
+		getContentPane().add(u1c5);
+		
+		u1c4 = new JLabel(card);
+		u1c4.setBounds(55, 503, 76, 124);
+		getContentPane().add(u1c4);
+		
+		u1c3 = new JLabel(card);
+		u1c3.setBounds(55, 470, 76, 124);
+		getContentPane().add(u1c3);
+		
+		u1c2 = new JLabel(card);
+		u1c2.setBounds(55, 437, 76, 124);
+		getContentPane().add(u1c2);
+		
+		u1c1 = new JLabel(card);
+		u1c1.setBounds(55, 404, 76, 124);
+		getContentPane().add(u1c1);
+		
 		GamePanel.setBounds(0, 0, 964, 766);
 		GamePanel.setLayout(null);
+		GamePanel.setOpaque(true);
 		getContentPane().add(GamePanel);
+		
+		
 		
 		setVisible(true);
 		
@@ -101,11 +154,40 @@ public class Main extends JFrame{
 				String msg = "100원배팅";
 				AppendText(msg);
 			}else if(e.getSource() == stayButton) {
-				String msg = "카드받지않음";
-				AppendText(msg);
+				AppendText("카드 받지않음");
 			}else if(e.getSource() == heatButton) {
-				String msg = "카드받음";
-				AppendText(msg);
+				int card_num = (int)(Math.random()*13+1);
+				int card_shape = (int)(Math.random()*4+1);
+				String card_Type = null;
+				switch(card_shape) {
+				case 1:
+					card_Type="C";
+					break;
+				case 2:
+					card_Type="D";
+					break;
+				case 3:
+					card_Type="H";
+					break;
+				case 4:
+					card_Type="S";
+					break;
+				}
+				if(card_num<10) {
+					checkSum+=card_num;
+				}
+				else
+					checkSum+=10;
+				String card_name = String.format("./images/"+card_Type+card_num+".png");
+				Image card = new ImageIcon(Main.class.getResource(card_name)).getImage();
+				Image changeCard = card1.getScaledInstance(75, 124, Image.SCALE_SMOOTH);
+				ImageIcon cardImg = new ImageIcon(changeCard);
+				u1c6.setIcon(cardImg);
+				AppendText(card_name);
+				if(checkSum<=21)
+					u1sum.setText(Integer.toString(checkSum));
+				else
+					u1sum.setText("BURST!!!");
 			}
 		}
 	}
