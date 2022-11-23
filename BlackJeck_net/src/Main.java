@@ -54,19 +54,20 @@ public class Main extends JFrame{
 		panel.add(textField);
 		textField.setColumns(10);
 		
-		heatButton = new JButton("히트");
-		heatButton.setBounds(22, 798, 161, 53);
-		heatButton.addActionListener(action);
-		getContentPane().add(heatButton);
-		
-		stayButton = new JButton("스테이");
-		stayButton.setBounds(195, 798, 161, 53);
-		stayButton.addActionListener(action);
-		getContentPane().add(stayButton);
-		
 		ButtonPanel = new JPanel();
 		ButtonPanel.setBounds(0, 765, 964, 96);
 		getContentPane().add(ButtonPanel);
+		ButtonPanel.setLayout(null);
+		
+		heatButton = new JButton("히트");
+		heatButton.setBounds(12, 10, 161, 53);
+		ButtonPanel.add(heatButton);
+		
+		stayButton = new JButton("스테이");
+		stayButton.setBounds(196, 10, 161, 53);
+		ButtonPanel.add(stayButton);
+		stayButton.addActionListener(action);
+		heatButton.addActionListener(action);
 		
 		GamePanel = new JPanel() {
 			public void paint(Graphics g) {
