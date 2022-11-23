@@ -16,6 +16,7 @@ public class Main extends JFrame{
     private JButton stayButton;
     private JPanel ButtonPanel;
     private JPanel GamePanel;
+    private Image tableImg = new ImageIcon(Main.class.getResource("./images/pokertable.jpeg")).getImage();
 	public Main() {
 		getContentPane().setBackground(new Color(255, 255, 255));
 		Myaction action = new Myaction();
@@ -67,7 +68,11 @@ public class Main extends JFrame{
 		ButtonPanel.setBounds(0, 765, 964, 96);
 		getContentPane().add(ButtonPanel);
 		
-		GamePanel = new JPanel();
+		GamePanel = new JPanel() {
+			public void paint(Graphics g) {
+				g.drawImage(tableImg,0,0,964,766,this);
+			}
+		};
 		GamePanel.setBounds(0, 0, 964, 766);
 		GamePanel.setLayout(null);
 		getContentPane().add(GamePanel);
