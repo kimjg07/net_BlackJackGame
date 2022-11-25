@@ -63,7 +63,7 @@ public class Main extends JFrame{
 		panel.add(SendButton);
 		
 		BetButton = new JButton("배팅");
-		BetButton.setBounds(130, 805, 84, 23);
+		BetButton.setBounds(130, 770, 84, 23);
 		BetButton.addActionListener(action);
 		panel.add(BetButton);
 		
