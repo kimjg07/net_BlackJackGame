@@ -47,6 +47,8 @@ public class Server extends JFrame {
 	public HashMap<String,Integer> UserMoney = new HashMap<String,Integer>();
 	public HashMap<String,String> UserBetStatus = new HashMap<String,String>();
 	public int betAmount = 0;
+	public int dealerCheckSum = 0;
+	public String dealerStatus;
 	
 	/**
 	 * Launch the application.
@@ -169,7 +171,7 @@ public class Server extends JFrame {
 		public String UserName = "";
 		public String UserStatus;
 		public String UserGameStatus;
-		
+		public int checkSum = 0;
 		
 		public UserService(Socket client_socket) {
 			// TODO Auto-generated constructor stub
@@ -236,12 +238,13 @@ public class Server extends JFrame {
 			}
 		}
 		
-		public void WriteAllCard() {
+		public void SendAllCard() {
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
-				if (user.UserStatus == "O") {
-					user.SendCard();
-				}
+				user.SendCard();
+				user.SendCard();
+				user.DealerSendCard();
+				user.DealerSendCard();
 			}
 		}
 		
@@ -345,50 +348,107 @@ public class Server extends JFrame {
 		public void SendCard() {
 			while(true) {
 				boolean cnt = false;
-				int shape = (int)((Math.random()*4)+1);
-				int number = (int)((Math.random()*13)+2);
-				String primaryKey = "Card" + number + shape;
+				int card_num = (int)(Math.random()*13+1);
+				int card_shape = (int)(Math.random()*4+1);
+				String card_Type = null;
+				switch(card_shape) {
+				case 1:
+					card_Type="C";
+					break;
+				case 2:
+					card_Type="D";
+					break;
+				case 3:
+					card_Type="H";
+					break;
+				case 4:
+					card_Type="S";
+					break;
+				}
+				if(card_num<10) {
+					checkSum+=card_num;
+				}
+				else
+					checkSum+=10;
+				String primaryKey = card_Type + card_num;
 				for(int i=0;i<CardList.size();i++) {
 					if(CardList.get(i).equals(primaryKey) == true)
 						cnt = true;
 				}
 				if(cnt == false) {
 					CardList.add(primaryKey);
-					User obcm = new User("SerVer", "401", primaryKey);
-					obcm.CardList.add(primaryKey);
+					User obcm = new User(UserName, "401", primaryKey); 
+					obcm.cardList += primaryKey + " ";
+					checkSum += obcm.getCheckSum();
+					obcm.setCheckSum(checkSum);
+					if(checkSum > 21) {
+						UserStatus = "B";
+						obcm.UserStatus = "B";
+					}
 					WriteOneObject(obcm);
 					break;
 				}
 			}
 		}
 		
+		public void DealerSendCard() {
+			while(true) {
+				boolean cnt = false;
+				int card_num = (int)(Math.random()*13+1);
+				int card_shape = (int)(Math.random()*4+1);
+				String card_Type = null;
+				switch(card_shape) {
+				case 1:
+					card_Type="C";
+					break;
+				case 2:
+					card_Type="D";
+					break;
+				case 3:
+					card_Type="H";
+					break;
+				case 4:
+					card_Type="S";
+					break;
+				}
+				if(card_num<10) {
+					dealerCheckSum+=card_num;
+				}
+				else
+					dealerCheckSum+=10;
+				String primaryKey = card_Type + card_num;
+				for(int i=0;i<CardList.size();i++) {
+					if(CardList.get(i).equals(primaryKey) == true)
+						cnt = true;
+				}
+				if(cnt == false) {
+					CardList.add(primaryKey);
+					User obcm = new User("Dealer", "600", primaryKey); 
+					obcm.cardList += primaryKey + " ";
+					dealerCheckSum += obcm.getCheckSum();
+					obcm.setCheckSum(checkSum);
+					if(checkSum > 21) {
+						dealerStatus = "B";
+						obcm.UserStatus = "B";
+					}
+					WriteOneObject(obcm);
+					break;
+				}
+			}
+		}
+		
+		public void RoundEnd() {
+			CardList.clear();
+			//user가 모두 b나 s일때 그리고 딜러가 b나 checkSum이 17이상 일때 게임 종료
+		}
+		
 		public void Hit(User cm) {
-			int oldAmount = UserMoney.get(UserName);
-			UserMoney.replace(UserName, oldAmount - 5000);
-			int newAmount = UserMoney.get(UserName);
-			betAmount += oldAmount - newAmount;
-			System.out.println(betAmount);
-			cm.Amount = newAmount;
-			cm.data = betAmount + "";
-			if(!UserBetStatus.containsKey(cm.UserName))
-				UserBetStatus.put(UserName, "B");
-			else
-				UserBetStatus.replace(UserName, "B");
-			WriteAllObject(cm);
+			SendCard();
 		}
 		
 		public void Stay(User cm) {
-			int oldAmount = UserMoney.get(UserName);
-			UserMoney.replace(UserName, oldAmount - betAmount);
-			int newAmount = UserMoney.get(UserName);
-			betAmount += oldAmount - newAmount;
-			cm.Amount = newAmount;
-			cm.data = betAmount + "";
-			if(!UserBetStatus.containsKey(cm.UserName))
-				UserBetStatus.put(UserName, "R");
-			else
-				UserBetStatus.replace(UserName, "R");
-			WriteAllObject(cm);
+			UserStatus = "S";
+			cm.UserStatus = "S";
 		}
 		
 		public void run() {
@@ -460,7 +520,7 @@ public class Server extends JFrame {
 						} else if (args[1].matches("/wakeup")) {
 							UserStatus = "O";
 						} else if (args[1].matches("/cardup")) {
-							WriteAllCard();
+							SendAllCard();
 						} else if (args[1].matches("/to")) { // 귓속말
 							for (int i = 0; i < user_vc.size(); i++) {
 								UserService user = (UserService) user_vc.elementAt(i);
