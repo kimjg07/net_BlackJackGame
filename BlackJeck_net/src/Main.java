@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 public class Main extends JFrame{
@@ -31,6 +32,9 @@ public class Main extends JFrame{
     private Boolean vis = true;
     private int cardCount =1;
     private JLabel nameLabel;
+    
+    private ArrayList<String> unameList = new ArrayList<String>();
+    
 	public Main() {
 		getContentPane().setBackground(new Color(255, 255, 255));
 		Myaction action = new Myaction();
@@ -241,14 +245,37 @@ public class Main extends JFrame{
 		}
 	}
 	
+	public void setCardimg(String username, String cardname, int turnCount) {
+		
+		String card_name = String.format("./images/"+cardname+".png");
+
+		switch(cardCount) {
+		case 1:
+			u1c1.setVisible(true);
+			break;
+		case 2:
+			u1c2.setVisible(true);
+			break;
+		case 3:
+			u1c3.setVisible(true);
+			break;
+		case 4:
+			u1c4.setVisible(true);
+			break;
+		case 5:
+			u1c5.setVisible(true);
+			break;
+		case 6:
+			u1c6.setVisible(true);
+			break;
+		}
+	}
+	
 	public void AppendText(String msg) {
 		textArea.append(msg + "\n");
 		textArea.setCaretPosition(textArea.getText().length());
 	}
 	
-	public void setCard(String card) {
-		
-	}
 
 	public static void main(String[] args) {
 		new Main();
