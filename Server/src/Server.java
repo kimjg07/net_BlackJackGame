@@ -447,14 +447,17 @@ public class Server extends JFrame {
 		
 		public void NextPerson() {
 			User obcm = new User("SERVER", "401", UserOrder.get(order));
-			order = (order + 1) % 5;
+			order = (order + 1) % 4;
 		}
-		
+		//버스트나 스테이 상태 판단하고 순서 배정
+		//딜러 버스트-22이상 힛-16이하 스테이-17이상 상태 판단
+		//
 		public void RoundEnd() {
 			CardList.clear();
 			//user가 모두 b나 s일때 그리고 딜러가 b나 checkSum이 17이상 일때 게임 종료
+			//딜러 턴에서 판단해서 호출
 		}
-		
+		//
 		public void Bet(User cm) {
 			int oldAmount = UserMoney.get(cm.UserName);
 			UserMoney.replace(cm.UserName, oldAmount - cm.betAmount);
