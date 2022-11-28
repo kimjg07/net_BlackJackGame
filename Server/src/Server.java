@@ -43,12 +43,13 @@ public class Server extends JFrame {
 	private Vector UserVec = new Vector(); // 연결된 사용자를 저장할 벡터
 	private static final int BUF_LEN = 128; // Windows 처럼 BUF_LEN 을 정의
 	public Vector<String> CardList = new Vector<String>();
-	public Vector<String> UserOrder = new Vector<String>();
+	public Vector<String> UserOrder = new Vector<String>();  //user가 들어온 순서대로 Vector에 저장
+	public int order = 0;  //UserOrder 벡터 안에서 순서지정
 	public HashMap<String,Integer> UserMoney = new HashMap<String,Integer>();
 	public HashMap<String,String> UserBetStatus = new HashMap<String,String>();
-	public int betAmount = 0;
-	public int dealerCheckSum = 0;
-	public String dealerStatus;
+	public int dealerCheckSum = 0; //딜러의 카드 합 점수
+	public String dealerStatus; //딜러 상태 버스트 B 살았을때 A
+	public int userCount = 0; //user가 들어온 순서 user class에 기입
 	
 	/**
 	 * Launch the application.
@@ -171,7 +172,8 @@ public class Server extends JFrame {
 		public String UserName = "";
 		public String UserStatus;
 		public String UserGameStatus;
-		public int checkSum = 0;
+		public int checkSum = 0;  //user의 카드 합 포인트
+		public int betAmount = 0; //user가 배팅한 금액
 		
 		public UserService(Socket client_socket) {
 			// TODO Auto-generated constructor stub
@@ -202,16 +204,20 @@ public class Server extends JFrame {
 				AppendText("userService error");
 			}
 		}
-
+		
 		public void Login() {
 			UserOrder.add(UserName);
-			UserMoney.put(UserName,100000);
+			UserMoney.put(UserName,1000);
 			UserStatus = "A";
 			AppendText("새로운 참가자 " + UserName + " 입장.");
 			WriteOne("Welcome to Java chat server\n");
 			WriteOne(UserName + "님 환영합니다.\n"); // 연결된 사용자에게 정상접속을 알림
 			String msg = "[" + UserName + "]님이 입장 하였습니다.\n";
 			WriteOthers(msg); // 아직 user_vc에 새로 입장한 user는 포함되지 않았다.
+			if(UserOrder.size() == 5) {
+				SendAllCard();
+				CurrentPerson();
+			}
 		}
 
 		public void Logout() {
@@ -242,10 +248,8 @@ public class Server extends JFrame {
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
 				user.SendCard();
-				user.SendCard();
-				user.DealerSendCard();
-				user.DealerSendCard();
 			}
+			DealerSendCard();
 		}
 		
 		// 나를 제외한 User들에게 방송. 각각의 UserService Thread의 WriteONe() 을 호출한다.
@@ -437,20 +441,45 @@ public class Server extends JFrame {
 			}
 		}
 		
+		public void CurrentPerson() {
+			User obcm = new User("SERVER", "401", UserOrder.get(order));
+		}
+		
+		public void NextPerson() {
+			User obcm = new User("SERVER", "401", UserOrder.get(order));
+			order = (order + 1) % 5;
+		}
+		
 		public void RoundEnd() {
 			CardList.clear();
 			//user가 모두 b나 s일때 그리고 딜러가 b나 checkSum이 17이상 일때 게임 종료
 		}
 		
+		public void Bet(User cm) {
+			int oldAmount = UserMoney.get(cm.UserName);
+			UserMoney.replace(cm.UserName, oldAmount - cm.betAmount);
+			int newAmount = UserMoney.get(cm.UserName);
+			betAmount = oldAmount - newAmount;
+			cm.amount = newAmount;
+			cm.betAmount = betAmount;
+			String msg = cm.UserName + "님이" + betAmount + "를 배팅하셨습니다.";
+			cm.data = msg;
+			WriteAllObject(cm);
+			NextPerson();
+		}
+		
 		public void Hit(User cm) {
 			SendCard();
+			AppendText("");
+			NextPerson();
 		}
 		
 		public void Stay(User cm) {
 			UserStatus = "S";
 			cm.UserStatus = "S";
+			NextPerson();
 		}
-		
+		 
 		public void run() {
 			while (true) { // 사용자 접속을 계속해서 받기 위해 while문
 				try {
@@ -547,9 +576,12 @@ public class Server extends JFrame {
 						break;
 					}
 					else if (cm.code.matches("500")) { 
-						Hit(cm);
+						Bet(cm);
 					}
 					else if (cm.code.matches("501")) { 
+						Hit(cm);
+					}
+					else if (cm.code.matches("502")) { 
 						Stay(cm);
 					}
 					else { // 300, 500, ... 기타 object는 모두 방송한다.
