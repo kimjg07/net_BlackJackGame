@@ -541,16 +541,13 @@ public class Server extends JFrame {
 			int oldAmount = UserMoney.get(cm.UserName);
 			UserMoney.replace(cm.UserName, oldAmount - 100);
 			int newAmount = UserMoney.get(cm.UserName);
-			cm.amount = newAmount;
 			String msg = cm.UserName + "님이" + betAmount + "를 배팅하셨습니다.";
-			cm.data = msg;
-			System.out.println(cm.code);
-			WriteAllObject(cm);
-			/*UserBetStatus++;
+			WriteAll(msg);
+			UserBetStatus++;
 			if(UserBetStatus == 4) {
 				SendAllCard();
 				UserBetStatus %= 4;
-			}*/
+			}
 			
 		}
 		
