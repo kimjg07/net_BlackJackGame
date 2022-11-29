@@ -43,7 +43,7 @@ public class Server extends JFrame {
 	private Vector UserVec = new Vector(); // 연결된 사용자를 저장할 벡터
 	private static final int BUF_LEN = 128; // Windows 처럼 BUF_LEN 을 정의
 	public Vector<String> CardList = new Vector<String>();
-	public Vector<String> UserOrder = new Vector<String>();  //user가 들어온 순서대로 Vector에 저장
+	public String[] UserOrder = new String[4];  //user가 들어온 순서대로 Vector에 저장
 	public int order = 0;  //UserOrder 벡터 안에서 순서지정
 	public HashMap<String,Integer> UserMoney = new HashMap<String,Integer>();
 	public HashMap<String,String> UserBetStatus = new HashMap<String,String>();
@@ -174,6 +174,7 @@ public class Server extends JFrame {
 		public String UserGameStatus;
 		public int checkSum = 0;  //user의 카드 합 포인트
 		public int betAmount = 0; //user가 배팅한 금액
+		public int userCnt=0;
 		
 		public UserService(Socket client_socket) {
 			// TODO Auto-generated constructor stub
@@ -206,15 +207,20 @@ public class Server extends JFrame {
 		}
 		
 		public void Login() {
-			UserOrder.add(UserName);
+			UserOrder[userCnt] = UserName; userCnt++;
 			UserMoney.put(UserName,1000);
 			UserStatus = "A";
+			String list = null;
 			AppendText("새로운 참가자 " + UserName + " 입장.");
 			WriteOne("Welcome to Java chat server\n");
 			WriteOne(UserName + "님 환영합니다.\n"); // 연결된 사용자에게 정상접속을 알림
 			String msg = "[" + UserName + "]님이 입장 하였습니다.\n";
 			WriteOthers(msg); // 아직 user_vc에 새로 입장한 user는 포함되지 않았다.
-			if(UserOrder.size() == 4) {
+			for(int i=0;i<UserOrder.length;i++) {
+				list += UserOrder[i] + " ";
+			}
+			WriteOneList(list);
+			if(UserOrder.length == 4) {
 				CurrentPerson();
 			}
 		}
@@ -348,6 +354,33 @@ public class Server extends JFrame {
 			}
 		}
 		
+		public void WriteOneList(String list) {
+			try {
+				// dos.writeUTF(msg);
+//				byte[] bb;
+//				bb = MakePacket(msg);
+//				dos.write(bb, 0, bb.length);
+				User obcm = new User("SERVER", "300", list);
+				oos.writeObject(obcm);
+			} catch (IOException e) {
+				AppendText("dos.writeObject() error");
+				try {
+//					dos.close();
+//					dis.close();
+					ois.close();
+					oos.close();
+					client_socket.close();
+					client_socket = null;
+					ois = null;
+					oos = null;
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				Logout(); // 에러가난 현재 객체를 벡터에서 지운다
+			}
+		}
+		
 		public void SendCard() {
 			while(true) {
 				boolean cnt = false;
@@ -439,7 +472,7 @@ public class Server extends JFrame {
 		}
 		
 		public void CurrentPerson() {
-			User obcm = new User("SERVER", "401", UserOrder.get(order));
+			User obcm = new User("SERVER", "401", UserOrder[order]);
 			WriteOneObject(obcm);
 		}
 		
@@ -450,7 +483,7 @@ public class Server extends JFrame {
 				NextPerson();
 			}
 			else {
-				User obcm = new User("SERVER", "401", UserOrder.get(order));
+				User obcm = new User("SERVER", "401", UserOrder[order]);
 				WriteOneObject(obcm);
 				order++;
 			}
