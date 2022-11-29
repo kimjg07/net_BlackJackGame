@@ -423,7 +423,7 @@ public class Server extends JFrame {
 						UserStatus = "B";
 						obcm.UserStatus = "B";
 					}
-					WriteOneObject(obcm);
+					WriteAllObject(obcm);
 					break;
 				}
 			}
