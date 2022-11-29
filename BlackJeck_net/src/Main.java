@@ -549,6 +549,7 @@ public class Main extends JFrame{
 					case "100":
 						break;
 					case "200": // chat message
+						System.out.println(msg);
 						AppendText(msg);
 						break;
 					case "300": // 유저 리스트 갱신 프로토콜
@@ -558,8 +559,7 @@ public class Main extends JFrame{
 						}
 						setUserList(uList);
 						break;
-					case "401":
-						setCardimg(cm.getUserName(),cm.getData());
+					case "400":
 						break;
 					case "600":
 						break;
