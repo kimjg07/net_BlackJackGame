@@ -468,7 +468,7 @@ public class Server extends JFrame {
 						dealerStatus = "B";
 						obcm.UserStatus = "B";
 					}
-					WriteOneObject(obcm);
+					WriteAllObject(obcm);
 					break;
 				}
 			}
