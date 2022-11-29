@@ -496,12 +496,16 @@ public class Main extends JFrame{
 		cardimg = new ImageIcon(changeCard);
 		if(uname.equals(u1_NameLabel.getText())) {
 			u1c1.setIcon(cardimg);
+			u1c1.setVisible(true);
 		}else if(uname.equals(u2_NameLabel.getText())) {
 			u2c1.setIcon(cardimg);
+			u2c1.setVisible(true);
 		}else if(uname.equals(u3_NameLabel.getText())) {
 			u3c1.setIcon(cardimg);
+			u3c1.setVisible(true);
 		}else if(uname.equals(u4_NameLabel.getText())) {
 			u4c1.setIcon(cardimg);
+			u4c1.setVisible(true);
 		}
 	}
 	
@@ -560,6 +564,9 @@ public class Main extends JFrame{
 						setUserList(uList);
 						break;
 					case "400":
+						break;
+					case "800":
+						setCardimg(cm.UserName,cm.data);
 						break;
 					case "600":
 						break;
