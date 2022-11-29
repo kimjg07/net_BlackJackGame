@@ -235,16 +235,14 @@ public class Server extends JFrame {
 		public void WriteAll(String str) {
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
-				if (user.UserStatus == "O")
-					user.WriteOne(str);
+				user.WriteOne(str);
 			}
 		}
 		// 모든 User들에게 Object를 방송. 채팅 message와 image object를 보낼 수 있다
 		public void WriteAllObject(Object ob) {
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
-				if (user.UserStatus == "O") 
-					user.WriteOneObject(ob);
+				user.WriteOneObject(ob);
 			}
 		}
 		
@@ -260,7 +258,7 @@ public class Server extends JFrame {
 		public void WriteOthers(String str) {
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
-				if (user != this && user.UserStatus == "O")
+				if (user != this)
 					user.WriteOne(str);
 			}
 		}
@@ -546,6 +544,7 @@ public class Server extends JFrame {
 			cm.amount = newAmount;
 			String msg = cm.UserName + "님이" + betAmount + "를 배팅하셨습니다.";
 			cm.data = msg;
+			System.out.println(cm.code);
 			WriteAllObject(cm);
 			/*UserBetStatus++;
 			if(UserBetStatus == 4) {
@@ -611,15 +610,14 @@ public class Server extends JFrame {
 						continue;
 					if (cm.code.matches("100")) {
 						UserName = cm.UserName;
-						UserStatus = "O"; // Online 상태
+						//UserStatus = "O"; // Online 상태
 						Login();
-						SendCard();
 					} else if (cm.code.matches("200")) {
 						msg = String.format("[%s] %s", cm.UserName, cm.data);
 						AppendText(msg); // server 화면에 출력
 						String[] args = msg.split(" "); // 단어들을 분리한다.
 						if (args.length == 1) { // Enter key 만 들어온 경우 Wakeup 처리만 한다.
-							UserStatus = "O";
+							//UserStatus = "O";
 						} else if (args[1].matches("/exit")) {
 							Logout();
 							break;
@@ -633,9 +631,9 @@ public class Server extends JFrame {
 							}
 							WriteOne("-----------------------------\n");
 						} else if (args[1].matches("/sleep")) {
-							UserStatus = "S";
+							//UserStatus = "S";
 						} else if (args[1].matches("/wakeup")) {
-							UserStatus = "O";
+							//UserStatus = "O";
 						} else if (args[1].matches("/cardup")) {
 							SendAllCard();
 						} else if (args[1].matches("/to")) { // 귓속말
