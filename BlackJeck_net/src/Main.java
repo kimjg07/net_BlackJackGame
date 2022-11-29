@@ -38,7 +38,7 @@ public class Main extends JFrame{
 	private String cardex = "./images/D9.png";
 	public Image card1 = new ImageIcon(Main.class.getResource(cardex)).getImage();
 	public Image changeCard = card1.getScaledInstance(75, 124, Image.SCALE_SMOOTH);
-	public ImageIcon card = new ImageIcon(changeCard);
+	public ImageIcon cardimg = new ImageIcon(changeCard);
 	private JTextArea textArea;
 	private JTextField textField;
 	private JButton SendButton;
@@ -256,128 +256,128 @@ public class Main extends JFrame{
 				g2.drawRect(760,332,155,423);
 			}
 		};
-		u1c6 = new JLabel(card);
+		u1c6 = new JLabel();
 		u1c6.setBounds(55, 569, 76, 124);
 		u1c6.setVisible(false);
 		getContentPane().add(u1c6);
 		
-		u1c5 = new JLabel(card);
+		u1c5 = new JLabel();
 		u1c5.setBounds(55, 536, 76, 124);
 		u1c5.setVisible(false);
 		getContentPane().add(u1c5);
 		
-		u1c4 = new JLabel(card);
+		u1c4 = new JLabel();
 		u1c4.setBounds(55, 503, 76, 124);
 		u1c4.setVisible(false);
 		getContentPane().add(u1c4);
 		
-		u1c3 = new JLabel(card);
+		u1c3 = new JLabel();
 		u1c3.setBounds(55, 470, 76, 124);
 		u1c3.setVisible(false);
 		getContentPane().add(u1c3);
 		
-		u1c2 = new JLabel(card);
+		u1c2 = new JLabel();
 		u1c2.setBounds(55, 437, 76, 124);
 		u1c2.setVisible(false);
 		getContentPane().add(u1c2);
 		
-		u1c1 = new JLabel(card);
+		u1c1 = new JLabel();
 		u1c1.setBounds(55, 404, 76, 124);
 		u1c1.setVisible(false);
 		getContentPane().add(u1c1);
 		
 		//
 		
-		u2c6 = new JLabel(card);
+		u2c6 = new JLabel();
 		u2c6.setBounds(300, 569, 76, 124);
 		u2c6.setVisible(false);
 		getContentPane().add(u2c6);
 		
-		u2c5 = new JLabel(card);
+		u2c5 = new JLabel();
 		u2c5.setBounds(300, 536, 76, 124);
 		u2c5.setVisible(false);
 		getContentPane().add(u2c5);
 		
-		u2c4 = new JLabel(card);
+		u2c4 = new JLabel();
 		u2c4.setBounds(300, 503, 76, 124);
 		u2c4.setVisible(false);
 		getContentPane().add(u2c4);
 		
-		u2c3 = new JLabel(card);
+		u2c3 = new JLabel();
 		u2c3.setBounds(300, 470, 76, 124);
 		u2c3.setVisible(false);
 		getContentPane().add(u2c3);
 		
-		u2c2 = new JLabel(card);
+		u2c2 = new JLabel();
 		u2c2.setBounds(300, 437, 76, 124);
 		u2c2.setVisible(false);
 		getContentPane().add(u2c2);
 		
-		u2c1 = new JLabel(card);
+		u2c1 = new JLabel();
 		u2c1.setBounds(300, 404, 76, 124);
 		u2c1.setVisible(false);
 		getContentPane().add(u2c1);
 		
 		//
 		
-		u3c6 = new JLabel(card);
+		u3c6 = new JLabel();
 		u3c6.setBounds(545, 569, 76, 124);
 		u3c6.setVisible(false);
 		getContentPane().add(u3c6);
 		
-		u3c5 = new JLabel(card);
+		u3c5 = new JLabel();
 		u3c5.setBounds(545, 536, 76, 124);
 		u3c5.setVisible(false);
 		getContentPane().add(u3c5);
 		
-		u3c4 = new JLabel(card);
+		u3c4 = new JLabel();
 		u3c4.setBounds(545, 503, 76, 124);
 		u3c4.setVisible(false);
 		getContentPane().add(u3c4);
 		
-		u3c3 = new JLabel(card);
+		u3c3 = new JLabel();
 		u3c3.setBounds(545, 470, 76, 124);
 		u3c3.setVisible(false);
 		getContentPane().add(u3c3);
 		
-		u3c2 = new JLabel(card);
+		u3c2 = new JLabel();
 		u3c2.setBounds(545, 437, 76, 124);
 		u3c2.setVisible(false);
 		getContentPane().add(u3c2);
 		
-		u3c1 = new JLabel(card);
+		u3c1 = new JLabel();
 		u3c1.setBounds(545, 404, 76, 124);
 		u3c1.setVisible(false);
 		getContentPane().add(u3c1);
 		
 		//
 		
-		u4c6 = new JLabel(card);
+		u4c6 = new JLabel();
 		u4c6.setBounds(790, 569, 76, 124);
 		u4c6.setVisible(false);
 		getContentPane().add(u4c6);
 		
-		u4c5 = new JLabel(card);
+		u4c5 = new JLabel();
 		u4c5.setBounds(790, 536, 76, 124);
 		u4c5.setVisible(false);
 		getContentPane().add(u4c5);
 		
-		u4c4 = new JLabel(card);
+		u4c4 = new JLabel();
 		u4c4.setBounds(790, 503, 76, 124);
 		u4c4.setVisible(false);
 		getContentPane().add(u4c4);
 		
-		u4c3 = new JLabel(card);
+		u4c3 = new JLabel();
 		u4c3.setBounds(790, 470, 76, 124);
 		u4c3.setVisible(false);
 		getContentPane().add(u4c3);
 		
-		u4c2 = new JLabel(card);
+		u4c2 = new JLabel();
 		u4c2.setBounds(790, 437, 76, 124);
 		u4c2.setVisible(false);
 		getContentPane().add(u4c2);
 		
-		u4c1 = new JLabel(card);
+		u4c1 = new JLabel();
 		u4c1.setBounds(790, 404, 76, 124);
 		u4c1.setVisible(false);
 		getContentPane().add(u4c1);
@@ -441,85 +441,6 @@ public class Main extends JFrame{
 				stayButton.setEnabled(false);
 				AppendText("카드 받지않음");
 			}else if(e.getSource() == heatButton) {
-				int card_num = (int)(Math.random()*13+1);
-				int card_shape = (int)(Math.random()*4+1);
-				String card_Type = null;
-				switch(card_shape) {
-				case 1:
-					card_Type="C";
-					break;
-				case 2:
-					card_Type="D";
-					break;
-				case 3:
-					card_Type="H";
-					break;
-				case 4:
-					card_Type="S";
-					break;
-				}
-				if(card_num<10) {
-					for(int i=0;i<4;i++) {
-						if(i==turn) {
-							checkSum[i]+=card_num;
-						}
-					}
-				}
-				else {
-					for(int i=0;i<4;i++) {
-						if(i==turn) {
-							checkSum[i]+=10;
-						}
-					}
-				}
-					
-				String card_name = String.format("./images/"+card_Type+card_num+".png");
-				card1 = new ImageIcon(Main.class.getResource(card_name)).getImage();
-				changeCard = card1.getScaledInstance(75, 124, Image.SCALE_SMOOTH);
-				card = new ImageIcon(changeCard);
-				if(turn == 0) {
-					setCardimg(turn,card);
-					AppendText(card_name);
-
-					if(checkSum[0]<=21)
-						u1_Sum.setText(Integer.toString(checkSum[0]));
-					else
-						u1_Sum.setText("BURST!!!");
-					cardCount[0]++;
-				}else if (turn ==1) {
-					setCardimg(turn,card);
-					AppendText(card_name);
-
-					if(checkSum[1]<=21)
-						u2_Sum.setText(Integer.toString(checkSum[1]));
-					else
-						u2_Sum.setText("BURST!!!");
-					cardCount[1]++;
-				}else if (turn == 2) {
-					setCardimg(turn,card);
-					AppendText(card_name);
-
-					if(checkSum[2]<=21)
-						u3_Sum.setText(Integer.toString(checkSum[2]));
-					else
-						u3_Sum.setText("BURST!!!");
-					cardCount[2]++;
-				}else if (turn ==3) {
-					setCardimg(turn,card);
-					AppendText(card_name);
-
-					if(checkSum[3]<=21)
-						u4_Sum.setText(Integer.toString(checkSum[3]));
-					else
-						u4_Sum.setText("BURST!!!");
-					cardCount[3]++;
-				}
-				
-				AppendText("turn :"+turn);
-				if(turn<3)
-					turn++;
-				else if(turn ==3)
-					turn =0;
 				
 			}else if(e.getSource()==resetButton) {
 				u1c1.setVisible(false);
@@ -568,116 +489,19 @@ public class Main extends JFrame{
 		}
 	}
 	
-	public void setCardimg(int turn,ImageIcon card) {
-		
-		if(turn == 0) {
-		switch(cardCount[0]) {
-		case 1:
-			u1c1.setIcon(card);
-			u1c1.setVisible(true);
-			break;
-		case 2:
-			u1c2.setIcon(card);
-			u1c2.setVisible(true);
-			break;
-		case 3:
-			u1c3.setIcon(card);
-			u1c3.setVisible(true);
-			break;
-		case 4:
-			u1c4.setIcon(card);
-			u1c4.setVisible(true);
-			break;
-		case 5:
-			u1c5.setIcon(card);
-			u1c5.setVisible(true);
-			break;
-		case 6:
-			u1c5.setIcon(card);
-			u1c6.setVisible(true);
-			break;
-		}
-		}else if(turn ==1){
-			switch(cardCount[1]) {
-			case 1:
-				u2c1.setIcon(card);
-				u2c1.setVisible(true);
-				break;
-			case 2:
-				u2c2.setIcon(card);
-				u2c2.setVisible(true);
-				break;
-			case 3:
-				u2c3.setIcon(card);
-				u2c3.setVisible(true);
-				break;
-			case 4:
-				u2c4.setIcon(card);
-				u2c4.setVisible(true);
-				break;
-			case 5:
-				u2c5.setIcon(card);
-				u2c5.setVisible(true);
-				break;
-			case 6:
-				u2c6.setIcon(card);
-				u2c6.setVisible(true);
-				break;
-			}
-		}else if(turn ==2) {
-			switch(cardCount[2]) {
-			case 1:
-				u3c1.setIcon(card);
-				u3c1.setVisible(true);
-				break;
-			case 2:
-				u3c2.setIcon(card);
-				u3c2.setVisible(true);
-				break;
-			case 3:
-				u3c3.setIcon(card);
-				u3c3.setVisible(true);
-				break;
-			case 4:
-				u3c4.setIcon(card);
-				u3c4.setVisible(true);
-				break;
-			case 5:
-				u3c5.setIcon(card);
-				u3c5.setVisible(true);
-				break;
-			case 6:
-				u3c6.setIcon(card);
-				u3c6.setVisible(true);
-				break;
-			}
-		}else if (turn == 3) {
-			switch(cardCount[3]) {
-			case 1:
-				u4c1.setIcon(card);
-				u4c1.setVisible(true);
-				break;
-			case 2:
-				u4c2.setIcon(card);
-				u4c2.setVisible(true);
-				break;
-			case 3:
-				u4c3.setIcon(card);
-				u4c3.setVisible(true);
-				break;
-			case 4:
-				u4c4.setIcon(card);
-				u4c4.setVisible(true);
-				break;
-			case 5:
-				u4c5.setIcon(card);
-				u4c5.setVisible(true);
-				break;
-			case 6:
-				u4c6.setIcon(card);
-				u4c6.setVisible(true);
-				break;
-			}
+	public void setCardimg(String uname,String card) {
+		String card_name = String.format("./images/"+card+".png");
+		card1 = new ImageIcon(Main.class.getResource(card_name)).getImage();
+		changeCard = card1.getScaledInstance(75, 124, Image.SCALE_SMOOTH);
+		cardimg = new ImageIcon(changeCard);
+		if(uname.equals(u1_NameLabel.getText())) {
+			u1c1.setIcon(cardimg);
+		}else if(uname.equals(u2_NameLabel.getText())) {
+			u2c1.setIcon(cardimg);
+		}else if(uname.equals(u3_NameLabel.getText())) {
+			u3c1.setIcon(cardimg);
+		}else if(uname.equals(u4_NameLabel.getText())) {
+			u4c1.setIcon(cardimg);
 		}
 	}
 	
@@ -734,9 +558,10 @@ public class Main extends JFrame{
 						}
 						setUserList(uList);
 						break;
-					case "400":
+					case "401":
+						setCardimg(cm.getUserName(),cm.getData());
 						break;
-					case "500":
+					case "600":
 						break;
 					}
 				} catch (IOException e) {
