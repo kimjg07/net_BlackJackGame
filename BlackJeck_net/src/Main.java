@@ -94,13 +94,13 @@ public class Main extends JFrame{
     private JLabel u2_NameLabel;
     private JLabel u3_NameLabel;
     private JLabel u4_NameLabel;
-    private Vector<User> uList = new Vector<User>();
     private JLabel u1Money;
     private JLabel u2Money;
     private JLabel u3Money;
     private JLabel u4Money;
     private String myName;
     private int turn=0;
+    private int userCount=1;
 	public Main(String username, String ip_addr, String port_no) {
 		myName = username;
 		getContentPane().setBackground(new Color(255, 255, 255));
@@ -154,7 +154,6 @@ public class Main extends JFrame{
 		
 		u2_NameLabel = new JLabel();
 		u2_NameLabel.setForeground(Color.BLACK);
-		u2_NameLabel.setText(myName);
 		u2_NameLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 30));
 		u2_NameLabel.setBounds(283,332,122,38);
 		getContentPane().add(u2_NameLabel);
@@ -169,7 +168,6 @@ public class Main extends JFrame{
 		
 		u3_NameLabel = new JLabel();
 		u3_NameLabel.setForeground(Color.BLACK);
-		u3_NameLabel.setText(myName);
 		u3_NameLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 30));
 		u3_NameLabel.setBounds(528,332,122,38);
 		getContentPane().add(u3_NameLabel);
@@ -184,7 +182,6 @@ public class Main extends JFrame{
 		
 		u4_NameLabel = new JLabel();
 		u4_NameLabel.setForeground(Color.BLACK);
-		u4_NameLabel.setText(myName);
 		u4_NameLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 30));
 		u4_NameLabel.setBounds(773,332,122,38);
 		getContentPane().add(u4_NameLabel);
@@ -735,8 +732,19 @@ public class Main extends JFrame{
 					} else
 						continue;
 					switch (cm.getCode()) {
+					case "100":
+						break;
 					case "200": // chat message
 						AppendText(msg);
+						break;
+					case "300":
+						String uList[] = cm.getData().split(" ");
+						System.out.println(uList);
+						setUserList(uList);
+						break;
+					case "400":
+						break;
+					case "500":
 						break;
 					}
 				} catch (IOException e) {
@@ -761,6 +769,28 @@ public class Main extends JFrame{
 	public void AppendText(String msg) {
 		textArea.append(msg + "\n");
 		textArea.setCaretPosition(textArea.getText().length());
+	}
+	
+	public void setUserList(String msg[]) {
+		int c=1;
+		for(int i=0;i<4;i++) {
+			if(msg[i] != myName) {
+				switch(c) {
+				case 1:
+					u2_NameLabel.setText(msg[i]);
+					c++;
+					break;
+				case 2:
+					u3_NameLabel.setText(msg[i]);
+					c++;
+					break;
+				case 3:
+					u4_NameLabel.setText(msg[i]);
+					c++;
+					break;
+				}
+			}
+		}
 	}
 	
 	// Windows 처럼 message 제외한 나머지 부분은 NULL 로 만들기 위한 함수
