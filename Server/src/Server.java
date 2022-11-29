@@ -48,7 +48,7 @@ public class Server extends JFrame {
 	public HashMap<String,Integer> UserMoney = new HashMap<String,Integer>();
 	public HashMap<String,String> UserBetStatus = new HashMap<String,String>();
 	public int dealerCheckSum = 0; //딜러의 카드 합 점수
-	public String dealerStatus; //딜러 상태 버스트 B 살았을때 A
+	public String dealerStatus = "A"; //딜러 상태 버스트 B 살았을때 A
 	public int userCount = 0; //user가 들어온 순서 user class에 기입
 	
 	/**
@@ -443,21 +443,66 @@ public class Server extends JFrame {
 		
 		public void CurrentPerson() {
 			User obcm = new User("SERVER", "401", UserOrder.get(order));
+			WriteOneObject(obcm);
 		}
 		
-		public void NextPerson() {
-			User obcm = new User("SERVER", "401", UserOrder.get(order));
-			order = (order + 1) % 4;
+		public void NextPerson() {  //버스트나 스테이 상태 판단하고 순서 배정
+			UserService user = (UserService) user_vc.elementAt(order);
+			if (user.UserStatus == "S" && user.UserStatus == "B") { 
+				order++;
+				NextPerson();
+			}
+			else {
+				User obcm = new User("SERVER", "401", UserOrder.get(order));
+				WriteOneObject(obcm);
+				order++;
+			}
+			
+			if(order == 4) {
+				order %= 4;
+				DealerTurn();
+			}
 		}
-		//버스트나 스테이 상태 판단하고 순서 배정
-		//딜러 버스트-22이상 힛-16이하 스테이-17이상 상태 판단
-		//
+		
+		public void DealerTurn() { //딜러 버스트-22이상 힛-16이하 스테이-17이상 상태 판단
+			if(dealerCheckSum < 17) {
+				DealerSendCard();
+			}
+			else if(dealerCheckSum >= 17);
+			if(EndChecking() == true)
+				RoundEnd(); 	//딜러 턴에서 판단해서 호출
+		}
+		
+		public boolean EndChecking() {  //user가 모두 b나 s일때 그리고 딜러가 b나 checkSum이 17이상 일때 게임 종료
+			for (int i = 0; i < user_vc.size(); i++) {
+				UserService user = (UserService) user_vc.elementAt(i);
+				if (user.UserStatus != "S" || user.UserStatus != "B") {
+					return false;
+				}	
+			}
+			return true;
+		}
+		
+		public String GetWin() {
+			String winner = null;
+			if(checkSum > dealerCheckSum) {
+				winner = UserName;
+			}
+			else if(checkSum < dealerCheckSum) {
+				winner = "Dealer";
+			}
+			else
+				winner = "Draw";
+			return winner;
+		}
+		
 		public void RoundEnd() {
 			CardList.clear();
-			//user가 모두 b나 s일때 그리고 딜러가 b나 checkSum이 17이상 일때 게임 종료
-			//딜러 턴에서 판단해서 호출
+			String winner = GetWin();
+			User obcm = new User("SERVER", "700", UserOrder.get(order));
+			WriteOneObject(obcm);
 		}
-		//
+
 		public void Bet(User cm) {
 			int oldAmount = UserMoney.get(cm.UserName);
 			UserMoney.replace(cm.UserName, oldAmount - cm.betAmount);
@@ -473,13 +518,14 @@ public class Server extends JFrame {
 		
 		public void Hit(User cm) {
 			SendCard();
-			AppendText("");
+			AppendText(cm.UserName + "님이 HIT 하셨습니다.");
 			NextPerson();
 		}
 		
 		public void Stay(User cm) {
 			UserStatus = "S";
 			cm.UserStatus = "S";
+			AppendText(cm.UserName + "님이 STAY 하셨습니다.");
 			NextPerson();
 		}
 		 
