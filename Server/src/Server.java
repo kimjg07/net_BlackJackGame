@@ -46,7 +46,7 @@ public class Server extends JFrame {
 	public String[] UserOrder = new String[4];  //user가 들어온 순서대로 Vector에 저장
 	public int order = 0;  //UserOrder 벡터 안에서 순서지정
 	public HashMap<String,Integer> UserMoney = new HashMap<String,Integer>();
-	public HashMap<String,String> UserBetStatus = new HashMap<String,String>();
+	public int UserBetStatus = 0;
 	public int dealerCheckSum = 0; //딜러의 카드 합 점수
 	public String dealerStatus = "A"; //딜러 상태 버스트 B 살았을때 A
 	public int userCnt = 0; //user가 들어온 순서 user class에 기입
@@ -541,15 +541,18 @@ public class Server extends JFrame {
 
 		public void Bet(User cm) {
 			int oldAmount = UserMoney.get(cm.UserName);
-			UserMoney.replace(cm.UserName, oldAmount - cm.betAmount);
+			UserMoney.replace(cm.UserName, oldAmount - 100);
 			int newAmount = UserMoney.get(cm.UserName);
-			betAmount = oldAmount - newAmount;
 			cm.amount = newAmount;
-			cm.betAmount = betAmount;
 			String msg = cm.UserName + "님이" + betAmount + "를 배팅하셨습니다.";
 			cm.data = msg;
 			WriteAllObject(cm);
-			NextPerson();
+			UserBetStatus++;
+			if(UserBetStatus == 4) {
+				SendAllCard();
+				UserBetStatus %= 4;
+			}
+			
 		}
 		
 		public void Hit(User cm) {
