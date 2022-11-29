@@ -547,11 +547,11 @@ public class Server extends JFrame {
 			String msg = cm.UserName + "님이" + betAmount + "를 배팅하셨습니다.";
 			cm.data = msg;
 			WriteAllObject(cm);
-			UserBetStatus++;
+			/*UserBetStatus++;
 			if(UserBetStatus == 4) {
 				SendAllCard();
 				UserBetStatus %= 4;
-			}
+			}*/
 			
 		}
 		
