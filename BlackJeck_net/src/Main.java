@@ -434,7 +434,7 @@ public class Main extends JFrame{
 					System.exit(0);
 			}else if(e.getSource() == BetButton) {
 				//
-				User obcm = new User(UserName, "500", "BET");
+				User obcm = new User(myName, "500", "BET");
 				SendObject(obcm);
 				BetButton.setEnabled(false);
 			}else if(e.getSource() == stayButton) {
