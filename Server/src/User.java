@@ -13,14 +13,12 @@ class User implements Serializable {
 	public int betAmount; 
 	public int checkSum;
 	public String UserStatus; //유저 상태 이기면 W 지면 L 비긴 경우 DR 버스트 B 스테이 S 살았을때 A 
-	public String cardList;
 	
 	public User(String UserName, String code, String msg) {
 		this.code = code;
 		this.UserName = UserName;
 		this.data = msg;
 	}
-
 	public int getCheckSum() {
 		return checkSum;
 	}

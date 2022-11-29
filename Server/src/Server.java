@@ -214,8 +214,7 @@ public class Server extends JFrame {
 			WriteOne(UserName + "님 환영합니다.\n"); // 연결된 사용자에게 정상접속을 알림
 			String msg = "[" + UserName + "]님이 입장 하였습니다.\n";
 			WriteOthers(msg); // 아직 user_vc에 새로 입장한 user는 포함되지 않았다.
-			if(UserOrder.size() == 5) {
-				SendAllCard();
+			if(UserOrder.size() == 4) {
 				CurrentPerson();
 			}
 		}
@@ -382,7 +381,6 @@ public class Server extends JFrame {
 				if(cnt == false) {
 					CardList.add(primaryKey);
 					User obcm = new User(UserName, "401", primaryKey); 
-					obcm.cardList += primaryKey + " ";
 					checkSum += obcm.getCheckSum();
 					obcm.setCheckSum(checkSum);
 					if(checkSum > 21) {
@@ -428,7 +426,6 @@ public class Server extends JFrame {
 				if(cnt == false) {
 					CardList.add(primaryKey);
 					User obcm = new User("Dealer", "600", primaryKey); 
-					obcm.cardList += primaryKey + " ";
 					dealerCheckSum += obcm.getCheckSum();
 					obcm.setCheckSum(checkSum);
 					if(checkSum > 21) {
@@ -499,7 +496,8 @@ public class Server extends JFrame {
 		public void RoundEnd() {
 			CardList.clear();
 			String winner = GetWin();
-			User obcm = new User("SERVER", "700", UserOrder.get(order));
+			User obcm = new User("SERVER", "700", winner);
+			
 			WriteOneObject(obcm);
 		}
 
