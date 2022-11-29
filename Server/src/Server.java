@@ -49,8 +49,7 @@ public class Server extends JFrame {
 	public HashMap<String,String> UserBetStatus = new HashMap<String,String>();
 	public int dealerCheckSum = 0; //딜러의 카드 합 점수
 	public String dealerStatus = "A"; //딜러 상태 버스트 B 살았을때 A
-	public int userCount = 0; //user가 들어온 순서 user class에 기입
-	public int userCnt = 0;
+	public int userCnt = 0; //user가 들어온 순서 user class에 기입
 	
 	/**
 	 * Launch the application.
@@ -219,7 +218,7 @@ public class Server extends JFrame {
 			
 			list = UserOrder[0] + " " + UserOrder[1] + " " + UserOrder[2] + " " + UserOrder[3];
 			
-			WriteOneList(list);
+			WriteList(list);
 			if(UserOrder.length == 4) {
 				CurrentPerson();
 			}
@@ -266,6 +265,12 @@ public class Server extends JFrame {
 			}
 		}
 
+		public void WriteList(String str) {
+			for (int i = 0; i < user_vc.size(); i++) {
+				UserService user = (UserService) user_vc.elementAt(i);
+					user.WriteOneList(str);
+			}
+		}
 		// Windows 처럼 message 제외한 나머지 부분은 NULL 로 만들기 위한 함수
 		public byte[] MakePacket(String msg) {
 			byte[] packet = new byte[BUF_LEN];
