@@ -402,7 +402,7 @@ public class Main extends JFrame{
 			ois = new ObjectInputStream(socket.getInputStream());
 
 			//SendMessage("/login " + UserName);
-			User obcm = new User(UserName, "100", "Hello");
+			User obcm = new User(myName, "100", "Hello");
 			SendObject(obcm);
 			
 			ListenNetwork net = new ListenNetwork();
@@ -789,7 +789,7 @@ public class Main extends JFrame{
 //				byte[] bb;
 //				bb = MakePacket(msg);
 //				dos.write(bb, 0, bb.length);
-				User obcm = new User(UserName, "200", msg);
+				User obcm = new User(myName, "200", msg);
 				oos.writeObject(obcm);
 			} catch (IOException e) {
 				// AppendText("dos.write() error");
