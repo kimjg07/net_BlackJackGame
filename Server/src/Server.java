@@ -50,6 +50,7 @@ public class Server extends JFrame {
 	public int dealerCheckSum = 0; //딜러의 카드 합 점수
 	public String dealerStatus = "A"; //딜러 상태 버스트 B 살았을때 A
 	public int userCount = 0; //user가 들어온 순서 user class에 기입
+	public int userCnt = 0;
 	
 	/**
 	 * Launch the application.
@@ -174,7 +175,7 @@ public class Server extends JFrame {
 		public String UserGameStatus;
 		public int checkSum = 0;  //user의 카드 합 포인트
 		public int betAmount = 0; //user가 배팅한 금액
-		public int userCnt=0;
+		public String list;
 		
 		public UserService(Socket client_socket) {
 			// TODO Auto-generated constructor stub
@@ -210,15 +211,14 @@ public class Server extends JFrame {
 			UserOrder[userCnt] = UserName; userCnt++;
 			UserMoney.put(UserName,1000);
 			UserStatus = "A";
-			String list = null;
 			AppendText("새로운 참가자 " + UserName + " 입장.");
 			WriteOne("Welcome to Java chat server\n");
 			WriteOne(UserName + "님 환영합니다.\n"); // 연결된 사용자에게 정상접속을 알림
 			String msg = "[" + UserName + "]님이 입장 하였습니다.\n";
 			WriteOthers(msg); // 아직 user_vc에 새로 입장한 user는 포함되지 않았다.
-			for(int i=0;i<UserOrder.length;i++) {
-				list += UserOrder[i] + " ";
-			}
+			
+			list = UserOrder[0] + " " + UserOrder[1] + " " + UserOrder[2] + " " + UserOrder[3];
+			
 			WriteOneList(list);
 			if(UserOrder.length == 4) {
 				CurrentPerson();
