@@ -433,20 +433,10 @@ public class Main extends JFrame{
 				if (msg.contains("/exit")) // 종료 처리
 					System.exit(0);
 			}else if(e.getSource() == BetButton) {
-				String msg = "100원배팅";
-				if(turn ==0)
-					u1Money.setText("900");
-				else if(turn ==1)
-					u2Money.setText("900");
-				else if(turn ==2)
-					u3Money.setText("900");
-				else if(turn ==3)
-					u4Money.setText("900");
-				AppendText(msg+" : "+turn);
-				if(turn <3)
-					turn++;
-				else if(turn==3)
-					turn=0;
+				//
+				User obcm = new User(UserName, "500", "BET");
+				SendObject(obcm);
+				BetButton.setEnabled(false);
 			}else if(e.getSource() == stayButton) {
 				stayButton.setEnabled(false);
 				AppendText("카드 받지않음");
