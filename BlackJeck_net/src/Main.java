@@ -737,9 +737,11 @@ public class Main extends JFrame{
 					case "200": // chat message
 						AppendText(msg);
 						break;
-					case "300":
+					case "300": // 유저 리스트 갱신 프로토콜
 						String uList[] = cm.getData().split(" ");
-						System.out.println(uList);
+						for(int i=0;i<4;i++) {
+							System.out.println(uList[i]);
+						}
 						setUserList(uList);
 						break;
 					case "400":
@@ -773,8 +775,9 @@ public class Main extends JFrame{
 	
 	public void setUserList(String msg[]) {
 		int c=1;
+		System.out.println(myName);
 		for(int i=0;i<4;i++) {
-			if(msg[i] != myName) {
+			if(!(msg[i].equals(myName))) {
 				switch(c) {
 				case 1:
 					u2_NameLabel.setText(msg[i]);
