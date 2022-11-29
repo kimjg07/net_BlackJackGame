@@ -416,7 +416,7 @@ public class Server extends JFrame {
 				}
 				if(cnt == false) {
 					CardList.add(primaryKey);
-					User obcm = new User(UserName, "401", primaryKey); 
+					User obcm = new User(UserName, "800", primaryKey); 
 					checkSum += obcm.getCheckSum();
 					obcm.setCheckSum(checkSum);
 					if(checkSum > 21) {
@@ -548,7 +548,6 @@ public class Server extends JFrame {
 				SendAllCard();
 				UserBetStatus %= 4;
 			}
-			
 		}
 		
 		public void Hit(User cm) {
