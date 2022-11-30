@@ -414,7 +414,6 @@ public class Server extends JFrame {
 				if(cnt == false) {
 					CardList.add(primaryKey);
 					User obcm = new User(UserName, "800", primaryKey); 
-					checkSum += obcm.getCheckSum();
 					obcm.setCheckSum(checkSum);
 					if(checkSum > 21) {
 						UserStatus = "B";
@@ -459,9 +458,8 @@ public class Server extends JFrame {
 				if(cnt == false) {
 					CardList.add(primaryKey);
 					User obcm = new User("Dealer", "800", primaryKey); 
-					dealerCheckSum += obcm.getCheckSum();
-					obcm.setCheckSum(checkSum);
-					if(checkSum > 21) {
+					obcm.setCheckSum(dealerCheckSum);
+					if(dealerCheckSum > 21) {
 						dealerStatus = "B";
 						obcm.UserStatus = "B";
 					}
@@ -478,6 +476,10 @@ public class Server extends JFrame {
 		}
 		
 		public void NextPerson() {  //버스트나 스테이 상태 판단하고 순서 배정
+			if(order == 4) {
+				order = 0;
+				DealerTurn();
+			}
 			UserService user = (UserService) user_vc.elementAt(order);
 			if (user.UserStatus.equals("S") || user.UserStatus.equals("B")) { 
 				order++;
@@ -488,20 +490,25 @@ public class Server extends JFrame {
 				WriteAllObject(obcm);
 				order++;
 			}
-			
-			if(order == 4) {
-				order = 0;
-				DealerTurn();
-			}
 		}
 		
 		public void DealerTurn() { //딜러 버스트-22이상 힛-16이하 스테이-17이상 상태 판단
 			if(dealerCheckSum < 17) {
 				DealerSendCard();
 			}
-			else if(dealerCheckSum >= 17);
-			if(EndChecking() == true)
-				RoundEnd(); 	//딜러 턴에서 판단해서 호출
+			else if(dealerCheckSum >= 17) {
+				if(dealerStatus.equals("B")) {
+					for (int i = 0; i < user_vc.size(); i++) {
+						UserService user = (UserService) user_vc.elementAt(i);
+						if (user.UserStatus != "B") {
+							User obcm = new User("SERVER", "900", UserName);
+							obcm.amount += 200;
+							WriteAll(UserName + "님이 이기셨습니다");
+							WriteAllObject(obcm);
+						}	
+					}
+				}
+			}
 		}
 		
 		public boolean EndChecking() {  //user가 모두 b나 s일때 그리고 딜러가 b나 checkSum이 17이상 일때 게임 종료
@@ -514,27 +521,6 @@ public class Server extends JFrame {
 			return true;
 		}
 		
-		public String GetWin() {
-			String winner = null;
-			if(checkSum > dealerCheckSum) {
-				winner = UserName;
-			}
-			else if(checkSum < dealerCheckSum) {
-				winner = "Dealer";
-			}
-			else
-				winner = "Draw";
-			return winner;
-		}
-		
-		public void RoundEnd() {
-			CardList.clear();
-			String winner = GetWin();
-			User obcm = new User("SERVER", "700", winner);
-			
-			WriteOneObject(obcm);
-		}
-
 		public void Bet(User cm) {
 			int oldAmount = UserMoney.get(cm.UserName);
 			UserMoney.replace(cm.UserName, oldAmount - 100);
