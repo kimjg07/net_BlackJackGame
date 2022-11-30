@@ -544,7 +544,7 @@ public class Server extends JFrame {
 						user.UserStatus = "A";
 						user.checkSum = 0;
 					}
-				}
+				}	
 			}	
 			
 		}
@@ -552,7 +552,7 @@ public class Server extends JFrame {
 		public boolean EndChecking() {  //user가 모두 b나 s일때 그리고 딜러가 b나 checkSum이 17이상 일때 게임 종료
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
-				if (!user.UserStatus.equals("S") || !user.UserStatus.equals("B")) {
+				if (!(user.UserStatus.equals("S")) || !(user.UserStatus.equals("B"))) {
 					return false;
 				}	
 			}
