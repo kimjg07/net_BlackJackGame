@@ -475,8 +475,9 @@ public class Server extends JFrame {
 		}
 		
 		public void CurrentPerson() {
-			User obcm = new User("SERVER", "401", UserOrder[order]);
+			User obcm = new User("SERVER", "900", UserOrder[order]);
 			WriteOneObject(obcm);
+			order++;
 		}
 		
 		public void NextPerson() {  //버스트나 스테이 상태 판단하고 순서 배정
@@ -486,14 +487,14 @@ public class Server extends JFrame {
 				NextPerson();
 			}
 			else {
-				User obcm = new User("SERVER", "401", UserOrder[order]);
+				User obcm = new User("SERVER", "900", UserOrder[order]);
 				WriteOneObject(obcm);
 				order++;
 			}
 			
 			if(order == 4) {
 				order %= 4;
-				DealerTurn();
+				//DealerTurn();
 			}
 		}
 		
@@ -549,6 +550,7 @@ public class Server extends JFrame {
 				SendAllCard();
 				SendAllCard();
 				UserBetStatus %= 4;
+				CurrentPerson();
 			}
 		}
 		
@@ -651,7 +653,7 @@ public class Server extends JFrame {
 								}
 							}
 						} else { // 일반 채팅 메시지
-							UserStatus = "O";
+							//UserStatus = "O";
 							//WriteAll(msg + "\n"); // Write All
 							WriteAllObject(cm);
 						}
