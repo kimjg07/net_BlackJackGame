@@ -742,6 +742,7 @@ public class Main extends JFrame{
 					case "500":
 						break;
 					case "600":
+						setClear();
 						break;
 					case "700":
 						break;
@@ -842,6 +843,43 @@ public class Main extends JFrame{
 					System.exit(0);
 				}
 			}
+		}
+		
+		public void setClear() {
+			turn=0;
+			u1c1.setVisible(false);
+			u1c2.setVisible(false);
+			u1c3.setVisible(false);
+			u1c4.setVisible(false);
+			u1c5.setVisible(false);
+			u1c6.setVisible(false);
+			u2c1.setVisible(false);
+			u2c2.setVisible(false);
+			u2c3.setVisible(false);
+			u2c4.setVisible(false);
+			u2c5.setVisible(false);
+			u2c6.setVisible(false);
+			u3c1.setVisible(false);
+			u3c2.setVisible(false);
+			u3c3.setVisible(false);
+			u3c4.setVisible(false);
+			u3c5.setVisible(false);
+			u3c6.setVisible(false);
+			u4c1.setVisible(false);
+			u4c2.setVisible(false);
+			u4c3.setVisible(false);
+			u4c4.setVisible(false);
+			u4c5.setVisible(false);
+			u4c6.setVisible(false);
+			dc1.setVisible(false);
+			dc2.setVisible(false);
+			dc3.setVisible(false);
+			dc4.setVisible(false);
+			dc5.setVisible(false);
+			dc6.setVisible(false);
+			heatButton.setEnabled(false);
+			stayButton.setEnabled(false);
+			BetButton.setEnabled(false);
 		}
 		public void setButton(String name) {
 			if(name.equals(myName))
