@@ -879,7 +879,7 @@ public class Main extends JFrame{
 			dc6.setVisible(false);
 			heatButton.setEnabled(false);
 			stayButton.setEnabled(false);
-			BetButton.setEnabled(false);
+			BetButton.setEnabled(true);
 		}
 		public void setButton(String name) {
 			if(name.equals(myName))
