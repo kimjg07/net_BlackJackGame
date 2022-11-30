@@ -219,9 +219,6 @@ public class Server extends JFrame {
 			list = UserOrder[0] + " " + UserOrder[1] + " " + UserOrder[2] + " " + UserOrder[3];
 			
 			WriteList(list);
-			if(UserOrder.length == 4) {
-				CurrentPerson();
-			}
 		}
 
 		public void Logout() {
