@@ -401,18 +401,18 @@ public class Server extends JFrame {
 					card_Type="S";
 					break;
 				}
-				if(card_num<10) {
-					checkSum+=card_num;
-				}
-				else
-					checkSum+=10;
-				AppendText(UserName +":"+checkSum);
 				String primaryKey = card_Type + card_num;
 				for(int i=0;i<CardList.size();i++) {
 					if(CardList.get(i).equals(primaryKey) == true)
 						cnt = true;
 				}
 				if(cnt == false) {
+					if(card_num<10) {
+						checkSum+=card_num;
+					}
+					else
+						checkSum+=10;
+					AppendText(UserName +":"+checkSum);
 					CardList.add(primaryKey);
 					User obcm = new User(UserName, "800", primaryKey); 
 					obcm.setCheckSum(checkSum);
@@ -446,18 +446,19 @@ public class Server extends JFrame {
 					card_Type="S";
 					break;
 				}
-				if(card_num<10) {
-					dealerCheckSum+=card_num;
-				}
-				else
-					dealerCheckSum+=10;
-				AppendText("Dealer:"+dealerCheckSum);
+			
 				String primaryKey = card_Type + card_num;
 				for(int i=0;i<CardList.size();i++) {
 					if(CardList.get(i).equals(primaryKey) == true)
 						cnt = true;
 				}
 				if(cnt == false) {
+					if(card_num<10) {
+						dealerCheckSum+=card_num;
+					}
+					else
+						dealerCheckSum+=10;
+					AppendText("Dealer:"+dealerCheckSum);
 					CardList.add(primaryKey);
 					User obcm = new User("Dealer", "800", primaryKey); 
 					obcm.setCheckSum(dealerCheckSum);
