@@ -484,6 +484,7 @@ public class Server extends JFrame {
 							user.UserStatus = "A";
 							user.checkSum = 0;
 						}
+						break;
 					}
 					WriteAllObject(obcm);
 					break;
