@@ -39,6 +39,9 @@ public class Main extends JFrame{
 	public Image card1 = new ImageIcon(Main.class.getResource(cardex)).getImage();
 	public Image changeCard = card1.getScaledInstance(75, 124, Image.SCALE_SMOOTH);
 	public ImageIcon cardimg = new ImageIcon(changeCard);
+	public Image cardback = new ImageIcon(Main.class.getResource("./images/CardBackImg.png")).getImage();
+	public Image changeCardback = cardback.getScaledInstance(75, 124, Image.SCALE_SMOOTH);
+	public ImageIcon cardbackimg = new ImageIcon(changeCardback);
 	private JTextArea textArea;
 	private JTextField textField;
 	private JButton SendButton;
@@ -101,6 +104,7 @@ public class Main extends JFrame{
     private String myName;
     private int turn=0;
     private int userCount=1;
+    private ImageIcon d_card;
 	public Main(String username, String ip_addr, String port_no) {
 		myName = username;
 		getContentPane().setBackground(new Color(255, 255, 255));
@@ -515,7 +519,6 @@ public class Main extends JFrame{
 				u3_Sum.setText("0");
 				u4_Sum.setText("0");
 				
-				turn =0;
 				
 				stayButton.setEnabled(true);
 			}
@@ -528,20 +531,123 @@ public class Main extends JFrame{
 		changeCard = card1.getScaledInstance(75, 124, Image.SCALE_SMOOTH);
 		cardimg = new ImageIcon(changeCard);
 		if(uname.equals(u1_NameLabel.getText())) {
-			u1c1.setIcon(cardimg);
-			u1c1.setVisible(true);
+			switch(turn) {
+			case 0:
+				u1c1.setIcon(cardimg);
+				u1c1.setVisible(true);
+				break;
+			case 1:
+				u1c2.setIcon(cardimg);
+				u1c2.setVisible(true);
+				break;
+			case 2:
+				u1c3.setIcon(cardimg);
+				u1c3.setVisible(true);
+				break;
+			case 3:
+				u1c4.setIcon(cardimg);
+				u1c4.setVisible(true);
+				break;
+			case 4:
+				u1c5.setIcon(cardimg);
+				u1c5.setVisible(true);
+				break;
+			case 5:
+				u1c6.setIcon(cardimg);
+				u1c6.setVisible(true);
+				break;
+			}
 		}else if(uname.equals(u2_NameLabel.getText())) {
-			u2c1.setIcon(cardimg);
-			u2c1.setVisible(true);
+			switch(turn) {
+			case 0:
+				u2c1.setIcon(cardimg);
+				u2c1.setVisible(true);
+				break;
+			case 1:
+				u2c2.setIcon(cardimg);
+				u2c2.setVisible(true);
+				break;
+			case 2:
+				u2c3.setIcon(cardimg);
+				u2c3.setVisible(true);
+				break;
+			case 3:
+				u2c4.setIcon(cardimg);
+				u2c4.setVisible(true);
+				break;
+			case 4:
+				u2c5.setIcon(cardimg);
+				u2c5.setVisible(true);
+				break;
+			case 5:
+				u2c6.setIcon(cardimg);
+				u2c6.setVisible(true);
+				break;
+			}
 		}else if(uname.equals(u3_NameLabel.getText())) {
-			u3c1.setIcon(cardimg);
-			u3c1.setVisible(true);
+			switch(turn) {
+			case 0:
+				u3c1.setIcon(cardimg);
+				u3c1.setVisible(true);
+				break;
+			case 1:
+				u3c2.setIcon(cardimg);
+				u3c2.setVisible(true);
+				break;
+			case 2:
+				u3c3.setIcon(cardimg);
+				u3c3.setVisible(true);
+				break;
+			case 3:
+				u3c4.setIcon(cardimg);
+				u3c4.setVisible(true);
+				break;
+			case 4:
+				u3c5.setIcon(cardimg);
+				u3c5.setVisible(true);
+				break;
+			case 5:
+				u3c6.setIcon(cardimg);
+				u3c6.setVisible(true);
+				break;
+			}
 		}else if(uname.equals(u4_NameLabel.getText())) {
-			u4c1.setIcon(cardimg);
-			u4c1.setVisible(true);
+			switch(turn) {
+			case 0:
+				u4c1.setIcon(cardimg);
+				u4c1.setVisible(true);
+				break;
+			case 1:
+				u4c2.setIcon(cardimg);
+				u4c2.setVisible(true);
+				break;
+			case 2:
+				u4c3.setIcon(cardimg);
+				u4c3.setVisible(true);
+				break;
+			case 3:
+				u4c4.setIcon(cardimg);
+				u4c4.setVisible(true);
+				break;
+			case 4:
+				u4c5.setIcon(cardimg);
+				u4c5.setVisible(true);
+				break;
+			case 5:
+				u4c6.setIcon(cardimg);
+				u4c6.setVisible(true);
+				break;
+			}
 		}else if(uname.equals("Dealer")) {
-			dc1.setIcon(cardimg);
-			dc1.setVisible(true);
+			if(turn !=1) {
+				dc1.setIcon(cardimg);
+				dc1.setVisible(true);
+			}else if(turn ==1) {
+				d_card = cardimg;
+				dc2.setIcon(cardbackimg);
+				dc2.setVisible(true);
+			}
+			turn++;
 		}
 	}
 	
