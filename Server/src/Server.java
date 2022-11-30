@@ -406,6 +406,7 @@ public class Server extends JFrame {
 				}
 				else
 					checkSum+=10;
+				AppendText(UserName +":"+checkSum);
 				String primaryKey = card_Type + card_num;
 				for(int i=0;i<CardList.size();i++) {
 					if(CardList.get(i).equals(primaryKey) == true)
@@ -450,6 +451,7 @@ public class Server extends JFrame {
 				}
 				else
 					dealerCheckSum+=10;
+				AppendText("Dealer:"+dealerCheckSum);
 				String primaryKey = card_Type + card_num;
 				for(int i=0;i<CardList.size();i++) {
 					if(CardList.get(i).equals(primaryKey) == true)
