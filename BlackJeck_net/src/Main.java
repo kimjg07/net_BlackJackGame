@@ -282,9 +282,9 @@ public class Main extends JFrame{
 		dc2.setVisible(false);
 		getContentPane().add(dc2);
 		
-		dc1 = new JLabel(cardimg);
+		dc1 = new JLabel();
 		dc1.setBounds(190, 40, 76, 124);
-		dc1.setVisible(true);
+		dc1.setVisible(false);
 		getContentPane().add(dc1);
 		
 		
