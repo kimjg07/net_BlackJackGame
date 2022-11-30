@@ -551,13 +551,17 @@ public class Server extends JFrame {
 		}
 		
 		public boolean EndChecking() {  //user가 모두 b나 s일때 그리고 딜러가 b나 checkSum이 17이상 일때 게임 종료
+			int endCnt=0;
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
-				if (!(user.UserStatus.equals("S")) || !(user.UserStatus.equals("B"))) {
-					return false;
+				if (user.UserStatus == "S" || user.UserStatus == "B") {
+					endCnt++;
 				}	
 			}
-			return true;
+			if(endCnt == 4)
+				return true;
+			else
+				return false;
 		}
 		
 		public void Bet(User cm) {
