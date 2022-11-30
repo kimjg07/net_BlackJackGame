@@ -541,7 +541,7 @@ public class Server extends JFrame {
 			int oldAmount = UserMoney.get(cm.UserName);
 			UserMoney.replace(cm.UserName, oldAmount - 100);
 			int newAmount = UserMoney.get(cm.UserName);
-			betAmount = oldAmount - 
+			betAmount = oldAmount - newAmount;
 			String msg = cm.UserName + "님이" + betAmount + "를 배팅하셨습니다.";
 			WriteAll(msg);
 			UserBetStatus++;
