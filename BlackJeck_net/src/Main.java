@@ -235,10 +235,12 @@ public class Main extends JFrame{
 		
 		heatButton = new JButton("히트");
 		heatButton.setBounds(12, 10, 161, 53);
+		heatButton.setEnabled(false);
 		ButtonPanel.add(heatButton);
 		
 		stayButton = new JButton("스테이");
 		stayButton.setBounds(196, 10, 161, 53);
+		stayButton.setEnabled(false);
 		ButtonPanel.add(stayButton);
 		resetButton = new JButton("리셋");
 		resetButton.setBounds(367,10,161,53);
@@ -710,6 +712,9 @@ public class Main extends JFrame{
 					case "800":
 						setCardimg(cm.UserName,cm.data);
 						break;
+					case "900":
+						setButton(cm.data);
+						break;
 					case "600":
 						break;
 					}
@@ -804,7 +809,13 @@ public class Main extends JFrame{
 				}
 			}
 		}
-
+		public void setButton(String name) {
+			if(name.equals(myName))
+			{
+				heatButton.setEnabled(true);
+				stayButton.setEnabled(true);
+			}
+		}
 		public void SendObject(Object ob) { // 서버로 메세지를 보내는 메소드
 			try {
 				oos.writeObject(ob);
