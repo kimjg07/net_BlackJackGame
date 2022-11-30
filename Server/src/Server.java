@@ -497,6 +497,7 @@ public class Server extends JFrame {
 				DealerSendCard();
 			}
 			else if(dealerCheckSum >= 17) {
+				DealerSendCard();
 				if(dealerStatus.equals("B")) {
 					for (int i = 0; i < user_vc.size(); i++) {
 						UserService user = (UserService) user_vc.elementAt(i);
