@@ -477,10 +477,13 @@ public class Main extends JFrame{
 				SendObject(obcm);
 				BetButton.setEnabled(false);
 			}else if(e.getSource() == stayButton) {
+				User obcm = new User(myName, "700", "STAY");
+				heatButton.setEnabled(false);
 				stayButton.setEnabled(false);
-				AppendText("카드 받지않음");
 			}else if(e.getSource() == heatButton) {
-				
+				User obcm = new User(myName, "700", "HEAT");
+				heatButton.setEnabled(false);
+				stayButton.setEnabled(false);
 			}else if(e.getSource()==resetButton) {
 				u1c1.setVisible(false);
 				u1c2.setVisible(false);
@@ -716,6 +719,8 @@ public class Main extends JFrame{
 						setButton(cm.data);
 						break;
 					case "600":
+						break;
+					case "700":
 						break;
 					}
 				} catch (IOException e) {
