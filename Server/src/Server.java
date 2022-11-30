@@ -462,6 +462,15 @@ public class Server extends JFrame {
 					if(dealerCheckSum > 21) {
 						dealerStatus = "B";
 						obcm.UserStatus = "B";
+						for (int i = 0; i < user_vc.size(); i++) {
+							UserService user = (UserService) user_vc.elementAt(i);
+							if (!user.UserStatus.equals("B")) {
+								User cm = new User("SERVER", "600", UserName);
+								cm.amount += 200;
+								WriteAll(UserName + "님이 이기셨습니다");
+								WriteAllObject(cm);
+							}	
+						}
 					}
 					WriteAllObject(obcm);
 					break;
@@ -497,25 +506,30 @@ public class Server extends JFrame {
 				DealerSendCard();
 			}
 			else if(dealerCheckSum >= 17) {
-				DealerSendCard();
-				if(dealerStatus.equals("B")) {
+				if(EndChecking() == true) {
+					CardList.clear();
 					for (int i = 0; i < user_vc.size(); i++) {
 						UserService user = (UserService) user_vc.elementAt(i);
-						if (user.UserStatus != "B") {
-							User obcm = new User("SERVER", "600", UserName);
-							obcm.amount += 200;
-							WriteAll(UserName + "님이 이기셨습니다");
-							WriteAllObject(obcm);
+						if (!user.UserStatus.equals("B")) {
+							if(checkSum > dealerCheckSum) 
+								WriteAll(UserName + "님이 이겼습니다");
+							else if(checkSum == dealerCheckSum) 
+								WriteAll("비겼습니다");
+							else
+								WriteAll(UserName + "님이 졌습니다");
 						}	
 					}
+					User cm = new User("SERVER", "600", UserName);
+					WriteAllObject(cm);
 				}
-			}
+			}	
+			
 		}
 		
 		public boolean EndChecking() {  //user가 모두 b나 s일때 그리고 딜러가 b나 checkSum이 17이상 일때 게임 종료
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
-				if (user.UserStatus != "S" || user.UserStatus != "B") {
+				if (!user.UserStatus.equals("S") || !user.UserStatus.equals("B")) {
 					return false;
 				}	
 			}
@@ -543,6 +557,10 @@ public class Server extends JFrame {
 			AppendText(cm.UserName + "님이 HIT 하셨습니다.");
 			String msg = cm.UserName + "님이 HIT 하셨습니다.";
 			WriteAll(msg);
+			if(UserStatus.equals("B")) {
+				msg = cm.UserName + "님이 HIT 하셨습니다.";
+				WriteAll(msg);
+			}
 			NextPerson();
 		}
 		
