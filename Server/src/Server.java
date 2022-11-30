@@ -546,6 +546,7 @@ public class Server extends JFrame {
 			UserBetStatus++;
 			if(UserBetStatus == 4) {
 				SendAllCard();
+				SendAllCard();
 				UserBetStatus %= 4;
 			}
 		}
