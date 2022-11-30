@@ -646,15 +646,39 @@ public class Main extends JFrame{
 				break;
 			}
 		}else if(uname.equals("Dealer")) {
-			if(turn !=1) {
+			switch(turn) {
+			case 0:
 				dc1.setIcon(cardimg);
 				dc1.setVisible(true);
-			}else if(turn ==1) {
-				d_card = cardimg;
+				turn++;
+				break;
+			case 1:
 				dc2.setIcon(cardbackimg);
 				dc2.setVisible(true);
+				turn++;
+				break;
+			case 2:
+				dc2.setIcon(d_card);
+				dc3.setIcon(cardimg);
+				dc3.setVisible(true);
+				turn++;
+				break;
+			case 3:
+				dc4.setIcon(cardimg);
+				dc4.setVisible(true);
+				turn++;
+				break;
+			case 4:
+				dc5.setIcon(cardimg);
+				dc5.setVisible(true);
+				turn++;
+				break;
+			case 5:
+				dc6.setIcon(cardimg);
+				dc6.setVisible(true);
+				turn=0;
+				break;
 			}
-			turn++;
 		}
 	}
 	
