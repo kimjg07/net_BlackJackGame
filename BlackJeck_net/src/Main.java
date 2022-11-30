@@ -478,10 +478,12 @@ public class Main extends JFrame{
 				BetButton.setEnabled(false);
 			}else if(e.getSource() == stayButton) {
 				User obcm = new User(myName, "700", "STAY");
+				SendObject(obcm);
 				heatButton.setEnabled(false);
 				stayButton.setEnabled(false);
 			}else if(e.getSource() == heatButton) {
 				User obcm = new User(myName, "700", "HEAT");
+				SendObject(obcm);
 				heatButton.setEnabled(false);
 				stayButton.setEnabled(false);
 			}else if(e.getSource()==resetButton) {
@@ -712,15 +714,17 @@ public class Main extends JFrame{
 						break;
 					case "400":
 						break;
+					case "500":
+						break;
+					case "600":
+						break;
+					case "700":
+						break;
 					case "800":
 						setCardimg(cm.UserName,cm.data);
 						break;
 					case "900":
 						setButton(cm.data);
-						break;
-					case "600":
-						break;
-					case "700":
 						break;
 					}
 				} catch (IOException e) {
