@@ -661,11 +661,12 @@ public class Server extends JFrame {
 					else if (cm.code.matches("500")) { 
 						Bet(cm);
 					}
-					else if (cm.code.matches("501")) { 
-						Hit(cm);
-					}
-					else if (cm.code.matches("502")) { 
-						Stay(cm);
+					else if (cm.code.matches("700")) { 
+						if (cm.data.matches("HEAT")) {
+							Hit(cm);
+						} else if (cm.data.matches("STAY")) {
+							Stay(cm);
+						}
 					}
 					else { // 300, 500, ... 기타 object는 모두 방송한다.
 						WriteAllObject(obcm);
