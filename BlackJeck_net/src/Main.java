@@ -731,7 +731,7 @@ public class Main extends JFrame{
 					} catch (Exception ee) {
 						break;
 					} // catch문 끝
-				} // 바깥 catch문끝
+				} // 바깥 catch문끝	``	
 
 			}
 		}
