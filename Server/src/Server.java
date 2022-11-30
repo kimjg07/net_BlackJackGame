@@ -471,6 +471,16 @@ public class Server extends JFrame {
 								WriteAllObject(cm);
 							}	
 						}
+						CardList.clear();
+						order = 0;
+						UserBetStatus = 0;
+						dealerCheckSum = 0;
+						dealerStatus = "A";
+						for (int i = 0; i < user_vc.size(); i++) {
+							UserService user = (UserService) user_vc.elementAt(i);
+							user.UserStatus = "A";
+							user.checkSum = 0;
+						}
 					}
 					WriteAllObject(obcm);
 					break;
@@ -507,7 +517,6 @@ public class Server extends JFrame {
 			}
 			else if(dealerCheckSum >= 17) {
 				if(EndChecking() == true) {
-					CardList.clear();
 					for (int i = 0; i < user_vc.size(); i++) {
 						UserService user = (UserService) user_vc.elementAt(i);
 						if (!user.UserStatus.equals("B")) {
@@ -521,6 +530,17 @@ public class Server extends JFrame {
 					}
 					User cm = new User("SERVER", "600", UserName);
 					WriteAllObject(cm);
+					
+					CardList.clear();
+					order = 0;
+					UserBetStatus = 0;
+					dealerCheckSum = 0;
+					dealerStatus = "A";
+					for (int i = 0; i < user_vc.size(); i++) {
+						UserService user = (UserService) user_vc.elementAt(i);
+						user.UserStatus = "A";
+						user.checkSum = 0;
+					}
 				}
 			}	
 			
@@ -558,7 +578,7 @@ public class Server extends JFrame {
 			String msg = cm.UserName + "님이 HIT 하셨습니다.";
 			WriteAll(msg);
 			if(UserStatus.equals("B")) {
-				msg = cm.UserName + "님이 HIT 하셨습니다.";
+				msg = cm.UserName + "님이 BUST 하셨습니다.";
 				WriteAll(msg);
 			}
 			NextPerson();
