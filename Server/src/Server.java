@@ -467,7 +467,7 @@ public class Server extends JFrame {
 						obcm.UserStatus = "B";
 						for (int i = 0; i < user_vc.size(); i++) {
 							UserService user = (UserService) user_vc.elementAt(i);
-							if (!user.UserStatus.equals("B")) {
+							if (!(user.UserStatus.equals("B"))) {
 								User cm = new User("SERVER", "600", UserName);
 								cm.amount += 200;
 								WriteAll(UserName + "님이 이기셨습니다");
@@ -522,7 +522,7 @@ public class Server extends JFrame {
 				if(EndChecking() == true) {
 					for (int i = 0; i < user_vc.size(); i++) {
 						UserService user = (UserService) user_vc.elementAt(i);
-						if (!user.UserStatus.equals("B")) {
+						if (!(user.UserStatus.equals("B"))) {
 							if(checkSum > dealerCheckSum) 
 								WriteAll(UserName + "님이 이겼습니다");
 							else if(checkSum == dealerCheckSum) 
