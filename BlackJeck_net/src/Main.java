@@ -101,6 +101,7 @@ public class Main extends JFrame{
     private JLabel u2Money;
     private JLabel u3Money;
     private JLabel u4Money;
+    private JLabel GameEnd;
     private String myName;
     private int turn=0;
     private int userCount=1;
@@ -112,6 +113,13 @@ public class Main extends JFrame{
 		setSize(1280,900);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
+		
+		GameEnd = new JLabel("Game END!");
+		GameEnd.setBounds(300,300,300,300);
+		GameEnd.setBackground(Color.BLACK);
+		GameEnd.setFont(new Font("맑은 고딕", Font.PLAIN, 30));
+		GameEnd.setForeground(Color.RED);
+		getContentPane().add(GameEnd);
 		
 		u1_NameLabel = new JLabel();
 		u1_NameLabel.setForeground(Color.BLACK);
