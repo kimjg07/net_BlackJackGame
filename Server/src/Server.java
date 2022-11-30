@@ -494,7 +494,7 @@ public class Server extends JFrame {
 			
 			if(order == 4) {
 				order %= 4;
-				//DealerTurn();
+				DealerTurn();
 			}
 		}
 		
