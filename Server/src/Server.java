@@ -543,6 +543,10 @@ public class Server extends JFrame {
 			AppendText(cm.UserName + "님이 HIT 하셨습니다.");
 			String msg = cm.UserName + "님이 HIT 하셨습니다.";
 			WriteAll(msg);
+			if(UserStatus.equals("B")) {
+				msg = cm.UserName + "님이 HIT 하셨습니다.";
+				WriteAll(msg);
+			}
 			NextPerson();
 		}
 		
