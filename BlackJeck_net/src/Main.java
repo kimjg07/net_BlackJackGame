@@ -655,11 +655,12 @@ public class Main extends JFrame{
 			case 1:
 				dc2.setIcon(cardbackimg);
 				dc2.setVisible(true);
+				d_card=cardimg;
 				turn++;
 				break;
 			case 2:
-				dc2.setIcon(d_card);
 				dc3.setIcon(cardimg);
+				dc2.setIcon(d_card);
 				dc3.setVisible(true);
 				turn++;
 				break;
@@ -741,7 +742,6 @@ public class Main extends JFrame{
 					case "500":
 						break;
 					case "600":
-						setClear();
 						break;
 					case "700":
 						break;
@@ -774,43 +774,6 @@ public class Main extends JFrame{
 	public void AppendText(String msg) {
 		textArea.append(msg + "\n");
 		textArea.setCaretPosition(textArea.getText().length());
-	}
-	
-	public void setClear() {
-		turn=0;
-		u1c1.setVisible(false);
-		u1c2.setVisible(false);
-		u1c3.setVisible(false);
-		u1c4.setVisible(false);
-		u1c5.setVisible(false);
-		u1c6.setVisible(false);
-		u2c1.setVisible(false);
-		u2c2.setVisible(false);
-		u2c3.setVisible(false);
-		u2c4.setVisible(false);
-		u2c5.setVisible(false);
-		u2c6.setVisible(false);
-		u3c1.setVisible(false);
-		u3c2.setVisible(false);
-		u3c3.setVisible(false);
-		u3c4.setVisible(false);
-		u3c5.setVisible(false);
-		u3c6.setVisible(false);
-		u4c1.setVisible(false);
-		u4c2.setVisible(false);
-		u4c3.setVisible(false);
-		u4c4.setVisible(false);
-		u4c5.setVisible(false);
-		u4c6.setVisible(false);
-		dc1.setVisible(false);
-		dc2.setVisible(false);
-		dc3.setVisible(false);
-		dc4.setVisible(false);
-		dc5.setVisible(false);
-		dc6.setVisible(false);
-		heatButton.setEnabled(false);
-		stayButton.setEnabled(false);
-		BetButton.setEnabled(true);
 	}
 	
 	public void setUserList(String msg[]) {
