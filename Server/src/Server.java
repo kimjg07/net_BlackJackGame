@@ -501,7 +501,7 @@ public class Server extends JFrame {
 					for (int i = 0; i < user_vc.size(); i++) {
 						UserService user = (UserService) user_vc.elementAt(i);
 						if (user.UserStatus != "B") {
-							User obcm = new User("SERVER", "900", UserName);
+							User obcm = new User("SERVER", "600", UserName);
 							obcm.amount += 200;
 							WriteAll(UserName + "님이 이기셨습니다");
 							WriteAllObject(obcm);
@@ -548,7 +548,6 @@ public class Server extends JFrame {
 		public void Stay(User cm) {
 			AppendText(UserStatus + "님이 STAY 하셨습니다.");
 			UserStatus = "S";
-			cm.UserStatus = "S";
 			
 			AppendText(cm.UserName + "님이 STAY 하셨습니다.");
 			String msg = cm.UserName + "님이 STAY 하셨습니다.";
