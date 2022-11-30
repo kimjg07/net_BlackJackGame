@@ -473,24 +473,24 @@ public class Server extends JFrame {
 		
 		public void CurrentPerson() {
 			User obcm = new User("SERVER", "900", UserOrder[order]);
-			WriteOneObject(obcm);
+			WriteAllObject(obcm);
 			order++;
 		}
 		
 		public void NextPerson() {  //버스트나 스테이 상태 판단하고 순서 배정
 			UserService user = (UserService) user_vc.elementAt(order);
-			if (user.UserStatus == "S" && user.UserStatus == "B") { 
+			if (user.UserStatus.equals("S") || user.UserStatus.equals("B")) { 
 				order++;
 				NextPerson();
 			}
 			else {
 				User obcm = new User("SERVER", "900", UserOrder[order]);
-				WriteOneObject(obcm);
+				WriteAllObject(obcm);
 				order++;
 			}
 			
 			if(order == 4) {
-				order %= 4;
+				order = 0;
 				DealerTurn();
 			}
 		}
@@ -546,7 +546,7 @@ public class Server extends JFrame {
 			if(UserBetStatus == 4) {
 				SendAllCard();
 				SendAllCard();
-				UserBetStatus %= 4;
+				UserBetStatus = 0;
 				CurrentPerson();
 			}
 		}
@@ -554,13 +554,19 @@ public class Server extends JFrame {
 		public void Hit(User cm) {
 			SendCard();
 			AppendText(cm.UserName + "님이 HIT 하셨습니다.");
+			String msg = cm.UserName + "님이 HIT 하셨습니다.";
+			WriteAll(msg);
 			NextPerson();
 		}
 		
 		public void Stay(User cm) {
+			AppendText(UserStatus + "님이 STAY 하셨습니다.");
 			UserStatus = "S";
 			cm.UserStatus = "S";
+			
 			AppendText(cm.UserName + "님이 STAY 하셨습니다.");
+			String msg = cm.UserName + "님이 STAY 하셨습니다.";
+			WriteAll(msg);
 			NextPerson();
 		}
 		 
