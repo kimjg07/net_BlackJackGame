@@ -256,6 +256,39 @@ public class Main extends JFrame{
 				g2.drawRect(760,332,155,423);
 			}
 		};
+		
+		dc6 = new JLabel();
+		dc6.setBounds(340, 40, 76, 124);
+		dc6.setVisible(false);
+		getContentPane().add(dc6);
+		
+		dc5 = new JLabel();
+		dc5.setBounds(310, 40, 76, 124);
+		dc5.setVisible(false);
+		getContentPane().add(dc5);
+		
+		dc4 = new JLabel();
+		dc4.setBounds(280, 40, 76, 124);
+		dc4.setVisible(false);
+		getContentPane().add(dc4);
+		
+		dc3 = new JLabel();
+		dc3.setBounds(250, 40, 76, 124);
+		dc3.setVisible(false);
+		getContentPane().add(dc3);
+		
+		dc2 = new JLabel();
+		dc2.setBounds(220, 40, 76, 124);
+		dc2.setVisible(false);
+		getContentPane().add(dc2);
+		
+		dc1 = new JLabel(cardimg);
+		dc1.setBounds(190, 40, 76, 124);
+		dc1.setVisible(true);
+		getContentPane().add(dc1);
+		
+		
+		
 		u1c6 = new JLabel();
 		u1c6.setBounds(55, 569, 76, 124);
 		u1c6.setVisible(false);
@@ -506,6 +539,9 @@ public class Main extends JFrame{
 		}else if(uname.equals(u4_NameLabel.getText())) {
 			u4c1.setIcon(cardimg);
 			u4c1.setVisible(true);
+		}else if(uname.equals("Dealer")) {
+			dc1.setIcon(cardimg);
+			dc1.setVisible(true);
 		}
 	}
 	
