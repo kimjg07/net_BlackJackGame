@@ -461,7 +461,7 @@ public class Server extends JFrame {
 				}
 				if(cnt == false) {
 					CardList.add(primaryKey);
-					User obcm = new User("Dealer", "600", primaryKey); 
+					User obcm = new User("Dealer", "800", primaryKey); 
 					dealerCheckSum += obcm.getCheckSum();
 					obcm.setCheckSum(checkSum);
 					if(checkSum > 21) {
