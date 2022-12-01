@@ -549,38 +549,37 @@ public class Main extends JFrame{
 		if(uname.equals(u1_NameLabel.getText())) {
 			switch(turn) {
 			case 0:
-				this.checkSum[0]+=checkSum;
-				u1_Sum.setText(""+this.checkSum[0]);
+				u1_Sum.setText(""+checkSum);
 				u1c1.setIcon(cardimg);
 				u1c1.setVisible(true);
 				break;
 			case 1:
-				this.checkSum[0]+=checkSum;
-				u1_Sum.setText(""+this.checkSum[0]);
+				this.checkSum[0]=checkSum;
+				u1_Sum.setText(""+checkSum);
 				u1c2.setIcon(cardimg);
 				u1c2.setVisible(true);
 				break;
 			case 2:
-				this.checkSum[0]+=checkSum;
-				u1_Sum.setText(""+this.checkSum[0]);
+				this.checkSum[0]=checkSum;
+				u1_Sum.setText(""+checkSum);
 				u1c3.setIcon(cardimg);
 				u1c3.setVisible(true);
 				break;
 			case 3:
-				this.checkSum[0]+=checkSum;
-				u1_Sum.setText(""+this.checkSum[0]);
+				this.checkSum[0]=checkSum;
+				u1_Sum.setText(""+checkSum);
 				u1c4.setIcon(cardimg);
 				u1c4.setVisible(true);
 				break;
 			case 4:
-				this.checkSum[0]+=checkSum;
-				u1_Sum.setText(""+this.checkSum[0]);
+				this.checkSum[0]=checkSum;
+				u1_Sum.setText(""+checkSum);
 				u1c5.setIcon(cardimg);
 				u1c5.setVisible(true);
 				break;
 			case 5:
-				this.checkSum[0]+=checkSum;
-				u1_Sum.setText(""+this.checkSum[0]);
+				this.checkSum[0]=checkSum;
+				u1_Sum.setText(""+checkSum);
 				u1c6.setIcon(cardimg);
 				u1c6.setVisible(true);
 				break;
@@ -588,38 +587,38 @@ public class Main extends JFrame{
 		}else if(uname.equals(u2_NameLabel.getText())) {
 			switch(turn) {
 			case 0:
-				this.checkSum[1]+=checkSum;
-				u1_Sum.setText(""+this.checkSum[1]);
+				this.checkSum[1]=checkSum;
+				u2_Sum.setText(""+checkSum);
 				u2c1.setIcon(cardimg);
 				u2c1.setVisible(true);
 				break;
 			case 1:
-				this.checkSum[1]+=checkSum;
-				u1_Sum.setText(""+this.checkSum[1]);
+				this.checkSum[1]=checkSum;
+				u2_Sum.setText(""+checkSum);
 				u2c2.setIcon(cardimg);
 				u2c2.setVisible(true);
 				break;
 			case 2:
-				this.checkSum[1]+=checkSum;
-				u1_Sum.setText(""+this.checkSum[1]);
+				this.checkSum[1]=checkSum;
+				u2_Sum.setText(""+checkSum);
 				u2c3.setIcon(cardimg);
 				u2c3.setVisible(true);
 				break;
 			case 3:
-				this.checkSum[1]+=checkSum;
-				u1_Sum.setText(""+this.checkSum[1]);
+				this.checkSum[1]=checkSum;
+				u2_Sum.setText(""+checkSum);
 				u2c4.setIcon(cardimg);
 				u2c4.setVisible(true);
 				break;
 			case 4:
-				this.checkSum[1]+=checkSum;
-				u1_Sum.setText(""+this.checkSum[1]);
+				this.checkSum[1]=checkSum;
+				u2_Sum.setText(""+checkSum);
 				u2c5.setIcon(cardimg);
 				u2c5.setVisible(true);
 				break;
 			case 5:
-				this.checkSum[1]+=checkSum;
-				u1_Sum.setText(""+this.checkSum[1]);
+				this.checkSum[1]=checkSum;
+				u2_Sum.setText(""+checkSum);
 				u2c6.setIcon(cardimg);
 				u2c6.setVisible(true);
 				break;
@@ -627,38 +626,38 @@ public class Main extends JFrame{
 		}else if(uname.equals(u3_NameLabel.getText())) {
 			switch(turn) {
 			case 0:
-				this.checkSum[2]+=checkSum;
-				u1_Sum.setText(""+this.checkSum[2]);
+				this.checkSum[2]=checkSum;
+				u3_Sum.setText(""+checkSum);
 				u3c1.setIcon(cardimg);
 				u3c1.setVisible(true);
 				break;
 			case 1:
-				this.checkSum[2]+=checkSum;
-				u1_Sum.setText(""+this.checkSum[2]);
+				this.checkSum[2]=checkSum;
+				u3_Sum.setText(""+checkSum);
 				u3c2.setIcon(cardimg);
 				u3c2.setVisible(true);
 				break;
 			case 2:
-				this.checkSum[2]+=checkSum;
-				u1_Sum.setText(""+this.checkSum[2]);
+				this.checkSum[2]=checkSum;
+				u3_Sum.setText(""+checkSum);
 				u3c3.setIcon(cardimg);
 				u3c3.setVisible(true);
 				break;
 			case 3:
-				this.checkSum[2]+=checkSum;
-				u1_Sum.setText(""+this.checkSum[2]);
+				this.checkSum[2]=checkSum;
+				u3_Sum.setText(""+checkSum);
 				u3c4.setIcon(cardimg);
 				u3c4.setVisible(true);
 				break;
 			case 4:
-				this.checkSum[2]+=checkSum;
-				u1_Sum.setText(""+this.checkSum[2]);
+				this.checkSum[2]=checkSum;
+				u3_Sum.setText(""+checkSum);
 				u3c5.setIcon(cardimg);
 				u3c5.setVisible(true);
 				break;
 			case 5:
-				this.checkSum[2]+=checkSum;
-				u1_Sum.setText(""+this.checkSum[2]);
+				this.checkSum[2]=checkSum;
+				u3_Sum.setText(""+checkSum);
 				u3c6.setIcon(cardimg);
 				u3c6.setVisible(true);
 				break;
@@ -666,38 +665,38 @@ public class Main extends JFrame{
 		}else if(uname.equals(u4_NameLabel.getText())) {
 			switch(turn) {
 			case 0:
-				this.checkSum[3]+=checkSum;
-				u1_Sum.setText(""+this.checkSum[3]);
+				this.checkSum[3]=checkSum;
+				u4_Sum.setText(""+checkSum);
 				u4c1.setIcon(cardimg);
 				u4c1.setVisible(true);
 				break;
 			case 1:
-				this.checkSum[3]+=checkSum;
-				u1_Sum.setText(""+this.checkSum[3]);
+				this.checkSum[3]=checkSum;
+				u4_Sum.setText(""+checkSum);
 				u4c2.setIcon(cardimg);
 				u4c2.setVisible(true);
 				break;
 			case 2:
-				this.checkSum[3]+=checkSum;
-				u1_Sum.setText(""+this.checkSum[3]);
+				this.checkSum[3]=checkSum;
+				u4_Sum.setText(""+checkSum);
 				u4c3.setIcon(cardimg);
 				u4c3.setVisible(true);
 				break;
 			case 3:
-				this.checkSum[3]+=checkSum;
-				u1_Sum.setText(""+this.checkSum[3]);
+				this.checkSum[3]=checkSum;
+				u4_Sum.setText(""+checkSum);
 				u4c4.setIcon(cardimg);
 				u4c4.setVisible(true);
 				break;
 			case 4:
-				this.checkSum[3]+=checkSum;
-				u1_Sum.setText(""+this.checkSum[3]);
+				this.checkSum[3]=checkSum;
+				u4_Sum.setText(""+checkSum);
 				u4c5.setIcon(cardimg);
 				u4c5.setVisible(true);
 				break;
 			case 5:
-				this.checkSum[3]+=checkSum;
-				u1_Sum.setText(""+this.checkSum[3]);
+				this.checkSum[3]=checkSum;
+				u4_Sum.setText(""+checkSum);
 				u4c6.setIcon(cardimg);
 				u4c6.setVisible(true);
 				break;
@@ -804,10 +803,14 @@ public class Main extends JFrame{
 					case "700":
 						break;
 					case "800":
+						System.out.println(cm.UserName+" : "+cm.checkSum);
 						setCardimg(cm.UserName,cm.data,cm.checkSum,cm.turn);
 						break;
 					case "900":
 						setButton(cm.data);
+						break;
+					case "1000":
+						setDealerToggle();
 						break;
 					}
 				} catch (IOException e) {
@@ -900,6 +903,10 @@ public class Main extends JFrame{
 					System.exit(0);
 				}
 			}
+		}
+		
+		public void setDealerToggle() {
+			dc2.setIcon(d_card);
 		}
 		
 		public void setClear() {
