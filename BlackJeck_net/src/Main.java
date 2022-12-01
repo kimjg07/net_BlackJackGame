@@ -105,6 +105,7 @@ public class Main extends JFrame{
     private String myName;
     private int d_turn=0;
     private int userCount=1;
+    private int d_checksum;
     private ImageIcon d_card;
 	public Main(String username, String ip_addr, String port_no) {
 		myName = username;
@@ -302,6 +303,14 @@ public class Main extends JFrame{
 		dc1.setVisible(false);
 		getContentPane().add(dc1);
 		
+		
+		d_Sum = new JLabel();
+		d_Sum.setBackground(Color.WHITE);
+		d_Sum.setForeground(Color.RED);
+		d_Sum.setText("0");
+		d_Sum.setFont(new Font("맑은 고딕", Font.PLAIN, 30));
+		d_Sum.setBounds(70, 140, 122, 38);
+		getContentPane().add(d_Sum);
 		
 		
 		u1c6 = new JLabel();
@@ -709,6 +718,7 @@ public class Main extends JFrame{
 				d_turn++;
 				break;
 			case 1:
+				d_checksum=checkSum;
 				dc2.setIcon(cardbackimg);
 				dc2.setVisible(true);
 				d_card=cardimg;
@@ -716,21 +726,26 @@ public class Main extends JFrame{
 				break;
 			case 2:
 				dc3.setIcon(cardimg);
+				d_Sum.setText(""+checkSum);
 				dc2.setIcon(d_card);
 				dc3.setVisible(true);
 				d_turn++;
 				break;
 			case 3:
+				d_Sum.setText(""+checkSum);
+
 				dc4.setIcon(cardimg);
 				dc4.setVisible(true);
 				d_turn++;
 				break;
 			case 4:
+				d_Sum.setText(""+checkSum);
 				dc5.setIcon(cardimg);
 				dc5.setVisible(true);
 				d_turn++;
 				break;
 			case 5:
+				d_Sum.setText(""+checkSum);
 				dc6.setIcon(cardimg);
 				dc6.setVisible(true);
 				d_turn=0;
@@ -907,6 +922,8 @@ public class Main extends JFrame{
 		
 		public void setDealerToggle() {
 			dc2.setIcon(d_card);
+			d_Sum.setText(""+d_checksum);
+
 		}
 		
 		public void setClear() {
@@ -948,6 +965,8 @@ public class Main extends JFrame{
 			u2_Sum.setText("0");
 			u3_Sum.setText("0");
 			u4_Sum.setText("0");
+			d_Sum.setText("0");
+			d_checksum=0;
 		}
 		public void setButton(String name) {
 			if(name.equals(myName))
