@@ -50,6 +50,7 @@ public class Server extends JFrame {
 	public int dealerCheckSum = 0; //딜러의 카드 합 점수
 	public String dealerStatus = "A"; //딜러 상태 버스트 B 살았을때 A
 	public int userCnt = 0; //user가 들어온 순서 user class에 기입
+	public int dealerCardCnt = 0;
 	
 	/**
 	 * Launch the application.
@@ -463,6 +464,7 @@ public class Server extends JFrame {
 						dealerCheckSum+=10;
 					AppendText("Dealer:"+dealerCheckSum);
 					CardList.add(primaryKey);
+					dealerCardCnt++;
 					User obcm = new User("Dealer", "800", primaryKey); 
 					obcm.setCheckSum(dealerCheckSum);
 					if(dealerCheckSum > 21) {
@@ -523,14 +525,20 @@ public class Server extends JFrame {
 				DealerSendCard();
 			}
 			else if(dealerCheckSum >= 17) {
+				if(dealerCardCnt == 2) {
+					String msg = "Cardopen";
+					User obcm = new User("SERVER", "1000", msg);
+					WriteAllObject(obcm);
+				}
 				if(EndChecking() == true) {
 					for (int i = 0; i < user_vc.size(); i++) {
 						UserService user = (UserService) user_vc.elementAt(i);
 						if (!(user.UserStatus.equals("B"))) {
-							if(checkSum > dealerCheckSum) 
+							System.out.println(user.checkSum + "x" + dealerCheckSum);
+							if(user.checkSum > dealerCheckSum) 
 								WriteAll(user.UserName + "님이 이겼습니다");
-							else if(checkSum == dealerCheckSum) 
-								WriteAll("비겼습니다");
+							else if(user.checkSum == dealerCheckSum) 
+								WriteAll(user.UserName + "님이 비겼습니다");
 							else
 								WriteAll(user.UserName + "님이 졌습니다");
 						}	
