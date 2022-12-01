@@ -416,6 +416,7 @@ public class Server extends JFrame {
 					CardList.add(primaryKey);
 					User obcm = new User(UserName, "800", primaryKey); 
 					obcm.setCheckSum(checkSum);
+					obcm.turn++;
 					if(checkSum > 21) {
 						UserStatus = "B";
 						obcm.UserStatus = "B";
