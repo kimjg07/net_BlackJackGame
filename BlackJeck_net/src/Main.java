@@ -944,6 +944,10 @@ public class Main extends JFrame{
 			heatButton.setEnabled(false);
 			stayButton.setEnabled(false);
 			BetButton.setEnabled(true);
+			u1_Sum.setText("0");
+			u2_Sum.setText("0");
+			u3_Sum.setText("0");
+			u4_Sum.setText("0");
 		}
 		public void setButton(String name) {
 			if(name.equals(myName))
