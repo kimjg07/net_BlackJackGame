@@ -101,8 +101,9 @@ public class Main extends JFrame{
     private JLabel u2Money;
     private JLabel u3Money;
     private JLabel u4Money;
+    private JLabel GameEnd;
     private String myName;
-    private int turn=0;
+    private int d_turn=0;
     private int userCount=1;
     private ImageIcon d_card;
 	public Main(String username, String ip_addr, String port_no) {
@@ -112,6 +113,14 @@ public class Main extends JFrame{
 		setSize(1280,900);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
+		
+		GameEnd = new JLabel("Game END!");
+		GameEnd.setBounds(300,300,300,300);
+		GameEnd.setBackground(Color.BLACK);
+		GameEnd.setVisible(false);
+		GameEnd.setFont(new Font("맑은 고딕", Font.PLAIN, 30));
+		GameEnd.setForeground(Color.RED);
+		getContentPane().add(GameEnd);
 		
 		u1_NameLabel = new JLabel();
 		u1_NameLabel.setForeground(Color.BLACK);
@@ -532,7 +541,7 @@ public class Main extends JFrame{
 		}
 	}
 	
-	public void setCardimg(String uname,String card) {
+	public void setCardimg(String uname,String card,int checkSum,int turn) {
 		String card_name = String.format("./images/"+card+".png");
 		card1 = new ImageIcon(Main.class.getResource(card_name)).getImage();
 		changeCard = card1.getScaledInstance(75, 124, Image.SCALE_SMOOTH);
@@ -540,26 +549,37 @@ public class Main extends JFrame{
 		if(uname.equals(u1_NameLabel.getText())) {
 			switch(turn) {
 			case 0:
+				u1_Sum.setText(""+checkSum);
 				u1c1.setIcon(cardimg);
 				u1c1.setVisible(true);
 				break;
 			case 1:
+				this.checkSum[0]=checkSum;
+				u1_Sum.setText(""+checkSum);
 				u1c2.setIcon(cardimg);
 				u1c2.setVisible(true);
 				break;
 			case 2:
+				this.checkSum[0]=checkSum;
+				u1_Sum.setText(""+checkSum);
 				u1c3.setIcon(cardimg);
 				u1c3.setVisible(true);
 				break;
 			case 3:
+				this.checkSum[0]=checkSum;
+				u1_Sum.setText(""+checkSum);
 				u1c4.setIcon(cardimg);
 				u1c4.setVisible(true);
 				break;
 			case 4:
+				this.checkSum[0]=checkSum;
+				u1_Sum.setText(""+checkSum);
 				u1c5.setIcon(cardimg);
 				u1c5.setVisible(true);
 				break;
 			case 5:
+				this.checkSum[0]=checkSum;
+				u1_Sum.setText(""+checkSum);
 				u1c6.setIcon(cardimg);
 				u1c6.setVisible(true);
 				break;
@@ -567,26 +587,38 @@ public class Main extends JFrame{
 		}else if(uname.equals(u2_NameLabel.getText())) {
 			switch(turn) {
 			case 0:
+				this.checkSum[1]=checkSum;
+				u2_Sum.setText(""+checkSum);
 				u2c1.setIcon(cardimg);
 				u2c1.setVisible(true);
 				break;
 			case 1:
+				this.checkSum[1]=checkSum;
+				u2_Sum.setText(""+checkSum);
 				u2c2.setIcon(cardimg);
 				u2c2.setVisible(true);
 				break;
 			case 2:
+				this.checkSum[1]=checkSum;
+				u2_Sum.setText(""+checkSum);
 				u2c3.setIcon(cardimg);
 				u2c3.setVisible(true);
 				break;
 			case 3:
+				this.checkSum[1]=checkSum;
+				u2_Sum.setText(""+checkSum);
 				u2c4.setIcon(cardimg);
 				u2c4.setVisible(true);
 				break;
 			case 4:
+				this.checkSum[1]=checkSum;
+				u2_Sum.setText(""+checkSum);
 				u2c5.setIcon(cardimg);
 				u2c5.setVisible(true);
 				break;
 			case 5:
+				this.checkSum[1]=checkSum;
+				u2_Sum.setText(""+checkSum);
 				u2c6.setIcon(cardimg);
 				u2c6.setVisible(true);
 				break;
@@ -594,26 +626,38 @@ public class Main extends JFrame{
 		}else if(uname.equals(u3_NameLabel.getText())) {
 			switch(turn) {
 			case 0:
+				this.checkSum[2]=checkSum;
+				u3_Sum.setText(""+checkSum);
 				u3c1.setIcon(cardimg);
 				u3c1.setVisible(true);
 				break;
 			case 1:
+				this.checkSum[2]=checkSum;
+				u3_Sum.setText(""+checkSum);
 				u3c2.setIcon(cardimg);
 				u3c2.setVisible(true);
 				break;
 			case 2:
+				this.checkSum[2]=checkSum;
+				u3_Sum.setText(""+checkSum);
 				u3c3.setIcon(cardimg);
 				u3c3.setVisible(true);
 				break;
 			case 3:
+				this.checkSum[2]=checkSum;
+				u3_Sum.setText(""+checkSum);
 				u3c4.setIcon(cardimg);
 				u3c4.setVisible(true);
 				break;
 			case 4:
+				this.checkSum[2]=checkSum;
+				u3_Sum.setText(""+checkSum);
 				u3c5.setIcon(cardimg);
 				u3c5.setVisible(true);
 				break;
 			case 5:
+				this.checkSum[2]=checkSum;
+				u3_Sum.setText(""+checkSum);
 				u3c6.setIcon(cardimg);
 				u3c6.setVisible(true);
 				break;
@@ -621,63 +665,75 @@ public class Main extends JFrame{
 		}else if(uname.equals(u4_NameLabel.getText())) {
 			switch(turn) {
 			case 0:
+				this.checkSum[3]=checkSum;
+				u4_Sum.setText(""+checkSum);
 				u4c1.setIcon(cardimg);
 				u4c1.setVisible(true);
 				break;
 			case 1:
+				this.checkSum[3]=checkSum;
+				u4_Sum.setText(""+checkSum);
 				u4c2.setIcon(cardimg);
 				u4c2.setVisible(true);
 				break;
 			case 2:
+				this.checkSum[3]=checkSum;
+				u4_Sum.setText(""+checkSum);
 				u4c3.setIcon(cardimg);
 				u4c3.setVisible(true);
 				break;
 			case 3:
+				this.checkSum[3]=checkSum;
+				u4_Sum.setText(""+checkSum);
 				u4c4.setIcon(cardimg);
 				u4c4.setVisible(true);
 				break;
 			case 4:
+				this.checkSum[3]=checkSum;
+				u4_Sum.setText(""+checkSum);
 				u4c5.setIcon(cardimg);
 				u4c5.setVisible(true);
 				break;
 			case 5:
+				this.checkSum[3]=checkSum;
+				u4_Sum.setText(""+checkSum);
 				u4c6.setIcon(cardimg);
 				u4c6.setVisible(true);
 				break;
 			}
 		}else if(uname.equals("Dealer")) {
-			switch(turn) {
+			switch(d_turn) {
 			case 0:
 				dc1.setIcon(cardimg);
 				dc1.setVisible(true);
-				turn++;
+				d_turn++;
 				break;
 			case 1:
 				dc2.setIcon(cardbackimg);
 				dc2.setVisible(true);
 				d_card=cardimg;
-				turn++;
+				d_turn++;
 				break;
 			case 2:
 				dc3.setIcon(cardimg);
 				dc2.setIcon(d_card);
 				dc3.setVisible(true);
-				turn++;
+				d_turn++;
 				break;
 			case 3:
 				dc4.setIcon(cardimg);
 				dc4.setVisible(true);
-				turn++;
+				d_turn++;
 				break;
 			case 4:
 				dc5.setIcon(cardimg);
 				dc5.setVisible(true);
-				turn++;
+				d_turn++;
 				break;
 			case 5:
 				dc6.setIcon(cardimg);
 				dc6.setVisible(true);
-				turn=0;
+				d_turn=0;
 				break;
 			}
 		}
@@ -720,10 +776,10 @@ public class Main extends JFrame{
 						break;
 					if (obcm instanceof User) {
 						cm = (User) obcm;
-						msg = String.format("[%s] %s", cm.getUserName(), cm.getData());
+						msg = String.format("[%s] %s", cm.UserName, cm.data);
 					} else
 						continue;
-					switch (cm.getCode()) {
+					switch (cm.code) {
 					case "100":
 						break;
 					case "200": // chat message
@@ -731,7 +787,7 @@ public class Main extends JFrame{
 						AppendText(msg);
 						break;
 					case "300": // 유저 리스트 갱신 프로토콜
-						String uList[] = cm.getData().split(" ");
+						String uList[] = cm.data.split(" ");
 						for(int i=0;i<4;i++) {
 							System.out.println(uList[i]);
 						}
@@ -747,10 +803,14 @@ public class Main extends JFrame{
 					case "700":
 						break;
 					case "800":
-						setCardimg(cm.UserName,cm.data);
+						System.out.println(cm.UserName+" : "+cm.checkSum);
+						setCardimg(cm.UserName,cm.data,cm.checkSum,cm.turn);
 						break;
 					case "900":
 						setButton(cm.data);
+						break;
+					case "1000":
+						setDealerToggle();
 						break;
 					}
 				} catch (IOException e) {
@@ -845,8 +905,12 @@ public class Main extends JFrame{
 			}
 		}
 		
+		public void setDealerToggle() {
+			dc2.setIcon(d_card);
+		}
+		
 		public void setClear() {
-			turn=0;
+			d_turn=0;
 			u1c1.setVisible(false);
 			u1c2.setVisible(false);
 			u1c3.setVisible(false);
@@ -880,6 +944,10 @@ public class Main extends JFrame{
 			heatButton.setEnabled(false);
 			stayButton.setEnabled(false);
 			BetButton.setEnabled(true);
+			u1_Sum.setText("0");
+			u2_Sum.setText("0");
+			u3_Sum.setText("0");
+			u4_Sum.setText("0");
 		}
 		public void setButton(String name) {
 			if(name.equals(myName))
