@@ -117,6 +117,7 @@ public class Main extends JFrame{
 		GameEnd = new JLabel("Game END!");
 		GameEnd.setBounds(300,300,300,300);
 		GameEnd.setBackground(Color.BLACK);
+		GameEnd.setVisible(false);
 		GameEnd.setFont(new Font("맑은 고딕", Font.PLAIN, 30));
 		GameEnd.setForeground(Color.RED);
 		getContentPane().add(GameEnd);
