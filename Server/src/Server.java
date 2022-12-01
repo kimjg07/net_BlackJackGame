@@ -537,7 +537,6 @@ public class Server extends JFrame {
 					
 					CardList.clear();
 					order = 0;
-					UserBetStatus = 0;
 					dealerCheckSum = 0;
 					dealerStatus = "A";
 					for (int i = 0; i < user_vc.size(); i++) {
