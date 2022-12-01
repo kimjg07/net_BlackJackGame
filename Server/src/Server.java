@@ -172,6 +172,7 @@ public class Server extends JFrame {
 		public String UserName = "";
 		public String UserStatus;
 		public String UserGameStatus;
+		public int userTurn = 0;
 		public int checkSum = 0;  //user의 카드 합 포인트
 		public int betAmount = 0; //user가 배팅한 금액
 		public String list;
@@ -416,7 +417,8 @@ public class Server extends JFrame {
 					CardList.add(primaryKey);
 					User obcm = new User(UserName, "800", primaryKey); 
 					obcm.setCheckSum(checkSum);
-					obcm.turn++;
+					obcm.turn = userTurn;
+					userTurn++;
 					if(checkSum > 21) {
 						UserStatus = "B";
 						obcm.UserStatus = "B";
