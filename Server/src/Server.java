@@ -525,11 +525,11 @@ public class Server extends JFrame {
 						UserService user = (UserService) user_vc.elementAt(i);
 						if (!(user.UserStatus.equals("B"))) {
 							if(checkSum > dealerCheckSum) 
-								WriteAll(UserName + "님이 이겼습니다");
+								WriteAll(user.UserName + "님이 이겼습니다");
 							else if(checkSum == dealerCheckSum) 
 								WriteAll("비겼습니다");
 							else
-								WriteAll(UserName + "님이 졌습니다");
+								WriteAll(user.UserName + "님이 졌습니다");
 						}	
 					}
 					User cm = new User("SERVER", "600", UserName);
