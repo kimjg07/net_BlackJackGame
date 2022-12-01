@@ -470,7 +470,7 @@ public class Server extends JFrame {
 							if (!(user.UserStatus.equals("B"))) {
 								User cm = new User("SERVER", "600", UserName);
 								cm.amount += 200;
-								WriteAll(UserName + "님이 이기셨습니다");
+								WriteAll(user.UserName + "님이 이기셨습니다");
 								WriteAllObject(cm);
 							}	
 						}
