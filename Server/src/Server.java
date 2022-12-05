@@ -25,6 +25,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
@@ -52,9 +53,10 @@ public class Server extends JFrame {
 	public String dealerStatus = "A"; //딜러 상태 버스트 B 살았을때 A
 	public int userCnt = 0; //user가 들어온 순서 user class에 기입
 	public int dealerCardCnt = 0;
-	public HashMap<Integer,String> roomList = new HashMap<Integer,String>();  //현재 존재하는 방 리스트
+	public HashMap<Integer,String>roomList = new HashMap<Integer,String>();  //현재 존재하는 방 리스트
 	public int room_id = 0; //방 코드
-	public String userList; //방의 참가한 유저 리스트
+	public String userList = null; //방의 참가한 유저 리스트
+	public Vector<GameSet> gs = new Vector<GameSet>();
 	
 	/**
 	 * Launch the application.
@@ -183,7 +185,6 @@ public class Server extends JFrame {
 		public String list;
 		public int currentRoom_id = 0;
 		
-		
 		public UserService(Socket client_socket) {
 			// TODO Auto-generated constructor stub
 			// 매개변수로 넘어온 자료 저장
@@ -215,12 +216,10 @@ public class Server extends JFrame {
 		}
 		
 		public void JoinRoom(User cm) {
-			UserOrder[userCnt] = UserName; userCnt++;
-			UserMoney.put(UserName,1000);
+			gs.get(0).UserOrder[gs.get(0).userCnt] = UserName; gs.get(0).userCnt++;
+			//UserMoney.put(UserName,1000);
 			UserStatus = "A";
-			userList += UserName;
 			currentRoom_id = cm.room_id;
-			roomList.replace(cm.room_id, userList); //클라이언트가 접속한 room_id 받아와 roomList에 UserName 추가
 			AppendText("새로운 참가자 " + UserName + " 입장.");
 			WriteOne("Welcome to Java chat server\n");
 			WriteOne(UserName + "님 환영합니다.\n"); // 연결된 사용자에게 정상접속을 알림
@@ -247,34 +246,35 @@ public class Server extends JFrame {
 		}
 
 		// 모든 User들에게 방송. 각각의 UserService Thread의 WriteONe() 을 호출한다.
-		public void WriteAll(String str) {
-			String[] senduserlist = new String[4];
-			senduserlist = roomList.get(currentRoom_id).split(" ");
+		public void WriteAll(String str) {		
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
-				for(int j=0;j<senduserlist.length;j++) {
-					if(senduserlist[j].equals(UserName))
-						user.WriteOne(str);
-				}
+				if(user.currentRoom_id == currentRoom_id)
+					user.WriteOne(str);
 			}
 		}
+		
 		// 모든 User들에게 Object를 방송. 채팅 message와 image object를 보낼 수 있다
 		public void WriteAllObject(Object ob) {
-			String[] senduserlist = new String[4];
-			senduserlist = roomList.get(currentRoom_id).split(" ");
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
-				for(int j=0;j<senduserlist.length;j++) {
-					if(senduserlist[j].equals(UserName))
-						user.WriteOneObject(ob);
-				}
+				if(user.currentRoom_id == currentRoom_id)
+					user.WriteOneObject(ob);
+			}
+		}
+		
+		public void WriteAllRoomObject(Object ob) {
+			for (int i = 0; i < user_vc.size(); i++) {
+				UserService user = (UserService) user_vc.elementAt(i);
+				user.WriteOneObject(ob);
 			}
 		}
 		
 		public void SendAllCard() {
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
-				user.SendCard();
+				if(user.currentRoom_id == currentRoom_id)
+					user.SendCard();
 			}
 			DealerSendCard();
 		}
@@ -283,7 +283,7 @@ public class Server extends JFrame {
 		public void WriteOthers(String str) {
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
-				if (user != this)
+				if (user != this && (user.currentRoom_id == currentRoom_id))
 					user.WriteOne(str);
 			}
 		}
@@ -291,6 +291,7 @@ public class Server extends JFrame {
 		public void WriteList(String str) {
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
+				if(user.currentRoom_id == currentRoom_id)
 					user.WriteOneList(str);
 			}
 		}
@@ -499,7 +500,7 @@ public class Server extends JFrame {
 						WriteAll("Dealer가 BUST 하였습니다.");
 						for (int i = 0; i < user_vc.size(); i++) {
 							UserService user = (UserService) user_vc.elementAt(i);
-							if (!(user.UserStatus.equals("B"))) {
+							if (!(user.UserStatus.equals("B")) && (user.currentRoom_id == currentRoom_id)) {
 								User cm = new User("SERVER", "600", UserName);
 								cm.amount += 200;
 								WriteAll(user.UserName + "님이 이기셨습니다");
@@ -514,8 +515,10 @@ public class Server extends JFrame {
 						dealerStatus = "A";
 						for (int i = 0; i < user_vc.size(); i++) {
 							UserService user = (UserService) user_vc.elementAt(i);
-							user.UserStatus = "A";
-							user.checkSum = 0;
+							if(user.currentRoom_id == currentRoom_id) {
+								user.UserStatus = "A";
+								user.checkSum = 0;
+							}
 						}
 						break;
 					}
@@ -537,7 +540,7 @@ public class Server extends JFrame {
 				DealerTurn();
 			}
 			UserService user = (UserService) user_vc.elementAt(order);
-			if (user.UserStatus.equals("S") || user.UserStatus.equals("B")) { 
+			if ((user.currentRoom_id == currentRoom_id) && (user.UserStatus.equals("S") || user.UserStatus.equals("B"))) { 
 				order++;
 				NextPerson();
 			}
@@ -640,15 +643,13 @@ public class Server extends JFrame {
 			NextPerson();
 		}
 		 
-		public void MakeRoom() {
-			if(userList.isEmpty()) //userList가 비어있으면 UserName 삽입
-				userList = UserName; 
-			else					//userList에 데이터가 남아있으면 뒤에 이어서 추가
-				userList += UserName + " " ;
-			roomList.replace(room_id, userList);
-			User obcm = new User("SERVER", "1100", "" + room_id); //room_id 클라이언트에게 전송
-			WriteAllObject(obcm);
-			room_id++;
+		public void MakeRoom(User cm) {
+			//userList가 비어있으면 UserName 삽입
+			currentRoom_id = cm.room_id;
+			roomList.put(room_id, UserName);
+			gs.add(new GameSet(currentRoom_id));
+			User obcm = new User("SERVER", "1100", "" + currentRoom_id); //room_id 클라이언트에게 전송
+			WriteAllRoomObject(obcm);
 		}
 		
 		public void run() {
@@ -693,6 +694,7 @@ public class Server extends JFrame {
 					} else
 						continue;
 					if (cm.code.matches("100")) {
+						UserName = cm.UserName;
 						Login();
 						
 					} else if (cm.code.matches("200")) {
@@ -755,10 +757,10 @@ public class Server extends JFrame {
 						}
 					}
 					else if (cm.code.matches("1100")) { 
-						MakeRoom();
+						MakeRoom(cm);
 					}
 					else if (cm.code.matches("1200")) { 
-						UserName = cm.UserName;
+						
 						JoinRoom(cm);
 					}
 					else { // 300, 500, ... 기타 object는 모두 방송한다.
