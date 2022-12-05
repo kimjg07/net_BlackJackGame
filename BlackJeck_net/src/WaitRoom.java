@@ -26,6 +26,7 @@ public class WaitRoom extends JFrame{
 	private DataOutputStream dos;
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
+	private JTextPane textArea;
 	Main gameMain;
 	String myName;
 	JButton createRoom;
@@ -39,6 +40,11 @@ public class WaitRoom extends JFrame{
 		Roominfo = new JScrollPane();
 		Roominfo.setBounds(0, 0, 300, 493);
 		getContentPane().add(Roominfo);
+		
+		textArea = new JTextPane();
+		textArea.setEditable(false);
+		textArea.setFont(new Font("굴림체", Font.PLAIN, 14));
+		Roominfo.setViewportView(textArea);
 		
 		createRoom = new JButton("방 생성");
 		createRoom.setBounds(312, 31, 108, 44);
@@ -104,7 +110,7 @@ public class WaitRoom extends JFrame{
 					case "100":
 						break;
 					case "1100":
-						setRoom();
+						setRoom(cm.room_id);
 						break;
 					}
 				} catch (IOException e) {
@@ -126,8 +132,11 @@ public class WaitRoom extends JFrame{
 		}
 	}
 	
-	public void setRoom() {
-		
+	public void setRoom(int id) {
+		int len = textArea.getDocument().getLength();
+		// 끝으로 이동
+		textArea.setCaretPosition(len);
+		textArea.replaceSelection(Integer.toString(id) + "\n");
 	}
 	class Myaction implements ActionListener // 내부클래스로 액션 이벤트 처리 클래스
 	{
@@ -136,13 +145,18 @@ public class WaitRoom extends JFrame{
 			if(e.getSource() == createRoom) {
 				String roomName = JOptionPane.showInputDialog("방 제목을 입력하세요.");
 				User obcm = new User(myName,"1100","createRoom");
-				obcm.room_id = Integer.parseInt(roomName);
+				obcm.room_id = Integer.parseInt(roomName.trim());
 				SendObject(obcm);
 				gameMain = new Main(myName,oos,ois);
 				setVisible(false);
 			}
 			else if(e.getSource() == enterRoom) {
-				
+				String roomNum = JOptionPane.showInputDialog("방 번호를 입력하세요.");
+				User obcm = new User(myName,"1100","createRoom");
+				obcm.room_id = Integer.parseInt(roomNum.trim());
+				SendObject(obcm);
+				gameMain = new Main(myName,oos,ois);
+				setVisible(false);
 			}
 		}
 	}

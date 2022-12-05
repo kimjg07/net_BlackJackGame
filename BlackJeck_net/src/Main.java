@@ -448,7 +448,8 @@ public class Main extends JFrame{
 		
 		
 
-		
+		ListenNetwork net = new ListenNetwork();
+		net.start();
 		
 		setVisible(true);
 		
