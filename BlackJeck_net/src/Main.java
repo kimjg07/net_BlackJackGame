@@ -107,8 +107,10 @@ public class Main extends JFrame{
     private int userCount=1;
     private int d_checksum;
     private ImageIcon d_card;
-	public Main(String username, String ip_addr, String port_no) {
+	public Main(String username, ObjectOutputStream oos,ObjectInputStream ois) {
 		myName = username;
+		this.oos = oos;
+		this.ois = ois;
 		getContentPane().setBackground(new Color(255, 255, 255));
 		Myaction action = new Myaction();
 		setSize(1280,900);
@@ -444,30 +446,8 @@ public class Main extends JFrame{
 		GamePanel.setOpaque(true);
 		getContentPane().add(GamePanel);
 		
-		try {
-			socket = new Socket(ip_addr, Integer.parseInt(port_no));
-//			is = socket.getInputStream();
-//			dis = new DataInputStream(is);
-//			os = socket.getOutputStream();
-//			dos = new DataOutputStream(os);
-
-			oos = new ObjectOutputStream(socket.getOutputStream());
-			oos.flush();
-			ois = new ObjectInputStream(socket.getInputStream());
-
-			//SendMessage("/login " + UserName);
-			User obcm = new User(myName, "100", "Hello");
-			SendObject(obcm);
-			
-			ListenNetwork net = new ListenNetwork();
-			net.start();
-
-		} catch (NumberFormatException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			AppendText("connect error");
-		}
 		
+
 		
 		
 		setVisible(true);

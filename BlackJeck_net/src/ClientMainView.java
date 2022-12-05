@@ -87,7 +87,7 @@ public class ClientMainView extends JFrame{
 			String username = txtUserName.getText().trim();
 			String ip_addr = txtIpAddress.getText().trim();
 			String port_no = txtPortNumber.getText().trim();
-			Main view = new Main(username, ip_addr, port_no);
+			WaitRoom room = new WaitRoom(username, ip_addr, port_no);
 			setVisible(false);
 		}
 	}
