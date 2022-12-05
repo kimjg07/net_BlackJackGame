@@ -644,7 +644,7 @@ public class Server extends JFrame {
 			if(userList.isEmpty()) //userList가 비어있으면 UserName 삽입
 				userList = UserName; 
 			else					//userList에 데이터가 남아있으면 뒤에 이어서 추가
-				userList += UserName;
+				userList += UserName + " " ;
 			roomList.replace(room_id, userList);
 			User obcm = new User("SERVER", "1100", "" + room_id); //room_id 클라이언트에게 전송
 			WriteAllObject(obcm);
