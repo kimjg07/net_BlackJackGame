@@ -42,7 +42,7 @@ public class WaitRoom extends JFrame{
 		getContentPane().add(Roominfo);
 		
 		textArea = new JTextPane();
-		textArea.setEditable(false);
+		textArea.setEditable(true);
 		textArea.setFont(new Font("굴림체", Font.PLAIN, 14));
 		Roominfo.setViewportView(textArea);
 		
@@ -61,15 +61,11 @@ public class WaitRoom extends JFrame{
 		
 		try {
 			socket = new Socket(ip_addr, Integer.parseInt(port_no));
-//			is = socket.getInputStream();
-//			dis = new DataInputStream(is);
-//			os = socket.getOutputStream();
-//			dos = new DataOutputStream(os);
-
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			oos.flush();
 			ois = new ObjectInputStream(socket.getInputStream());
-
+			System.out.println(oos);
+			System.out.println(ois);
 			//SendMessage("/login " + UserName);
 			User obcm = new User(myName, "100", "Hello");
 			SendObject(obcm);
@@ -136,7 +132,7 @@ public class WaitRoom extends JFrame{
 		int len = textArea.getDocument().getLength();
 		// 끝으로 이동
 		textArea.setCaretPosition(len);
-		textArea.replaceSelection(Integer.toString(id) + "\n");
+		textArea.replaceSelection(id + "\n");
 	}
 	class Myaction implements ActionListener // 내부클래스로 액션 이벤트 처리 클래스
 	{

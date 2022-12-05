@@ -111,6 +111,8 @@ public class Main extends JFrame{
 		myName = username;
 		this.oos = oos;
 		this.ois = ois;
+		System.out.println(oos);
+		System.out.println(ois);
 		getContentPane().setBackground(new Color(255, 255, 255));
 		Myaction action = new Myaction();
 		setSize(1280,900);
