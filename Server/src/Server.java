@@ -23,6 +23,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Vector;
@@ -51,6 +52,9 @@ public class Server extends JFrame {
 	public String dealerStatus = "A"; //딜러 상태 버스트 B 살았을때 A
 	public int userCnt = 0; //user가 들어온 순서 user class에 기입
 	public int dealerCardCnt = 0;
+	public HashMap<Integer,String> roomList = new HashMap<Integer,String>();  //현재 존재하는 방 리스트
+	public int room_id = 0; //방 코드
+	public String userList; //방의 참가한 유저 리스트
 	
 	/**
 	 * Launch the application.
@@ -177,6 +181,8 @@ public class Server extends JFrame {
 		public int checkSum = 0;  //user의 카드 합 포인트
 		public int betAmount = 0; //user가 배팅한 금액
 		public String list;
+		public int currentRoom_id = 0;
+		
 		
 		public UserService(Socket client_socket) {
 			// TODO Auto-generated constructor stub
@@ -208,10 +214,13 @@ public class Server extends JFrame {
 			}
 		}
 		
-		public void Login() {
+		public void JoinRoom(User cm) {
 			UserOrder[userCnt] = UserName; userCnt++;
 			UserMoney.put(UserName,1000);
 			UserStatus = "A";
+			userList += UserName;
+			currentRoom_id = cm.room_id;
+			roomList.replace(cm.room_id, userList); //클라이언트가 접속한 room_id 받아와 roomList에 UserName 추가
 			AppendText("새로운 참가자 " + UserName + " 입장.");
 			WriteOne("Welcome to Java chat server\n");
 			WriteOne(UserName + "님 환영합니다.\n"); // 연결된 사용자에게 정상접속을 알림
@@ -221,6 +230,13 @@ public class Server extends JFrame {
 			list = UserOrder[0] + " " + UserOrder[1] + " " + UserOrder[2] + " " + UserOrder[3];
 			
 			WriteList(list);
+		}
+		
+		public void Login() {
+			for(int key : roomList.keySet()) {
+				User obcm = new User("SERVER", "100", ""+key); 
+				WriteAllObject(obcm);
+			}
 		}
 
 		public void Logout() {
@@ -232,16 +248,26 @@ public class Server extends JFrame {
 
 		// 모든 User들에게 방송. 각각의 UserService Thread의 WriteONe() 을 호출한다.
 		public void WriteAll(String str) {
+			String[] senduserlist = new String[4];
+			senduserlist = roomList.get(currentRoom_id).split(" ");
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
-				user.WriteOne(str);
+				for(int j=0;j<senduserlist.length;j++) {
+					if(senduserlist[j].equals(UserName))
+						user.WriteOne(str);
+				}
 			}
 		}
 		// 모든 User들에게 Object를 방송. 채팅 message와 image object를 보낼 수 있다
 		public void WriteAllObject(Object ob) {
+			String[] senduserlist = new String[4];
+			senduserlist = roomList.get(currentRoom_id).split(" ");
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
-				user.WriteOneObject(ob);
+				for(int j=0;j<senduserlist.length;j++) {
+					if(senduserlist[j].equals(UserName))
+						user.WriteOneObject(ob);
+				}
 			}
 		}
 		
@@ -470,6 +496,7 @@ public class Server extends JFrame {
 					if(dealerCheckSum > 21) {
 						dealerStatus = "B";
 						obcm.UserStatus = "B";
+						WriteAll("Dealer가 BUST 하였습니다.");
 						for (int i = 0; i < user_vc.size(); i++) {
 							UserService user = (UserService) user_vc.elementAt(i);
 							if (!(user.UserStatus.equals("B"))) {
@@ -483,6 +510,7 @@ public class Server extends JFrame {
 						order = 0;
 						UserBetStatus = 0;
 						dealerCheckSum = 0;
+						userTurn = 0;
 						dealerStatus = "A";
 						for (int i = 0; i < user_vc.size(); i++) {
 							UserService user = (UserService) user_vc.elementAt(i);
@@ -549,6 +577,7 @@ public class Server extends JFrame {
 					CardList.clear();
 					order = 0;
 					dealerCheckSum = 0;
+					userTurn = 0;
 					dealerStatus = "A";
 					for (int i = 0; i < user_vc.size(); i++) {
 						UserService user = (UserService) user_vc.elementAt(i);
@@ -557,7 +586,6 @@ public class Server extends JFrame {
 					}
 				}	
 			}	
-			
 		}
 		
 		public boolean EndChecking() {  //user가 모두 b나 s일때 그리고 딜러가 b나 checkSum이 17이상 일때 게임 종료
@@ -612,6 +640,17 @@ public class Server extends JFrame {
 			NextPerson();
 		}
 		 
+		public void MakeRoom() {
+			if(userList.isEmpty()) //userList가 비어있으면 UserName 삽입
+				userList = UserName; 
+			else					//userList에 데이터가 남아있으면 뒤에 이어서 추가
+				userList += UserName;
+			roomList.replace(room_id, userList);
+			User obcm = new User("SERVER", "1100", "" + room_id); //room_id 클라이언트에게 전송
+			WriteAllObject(obcm);
+			room_id++;
+		}
+		
 		public void run() {
 			while (true) { // 사용자 접속을 계속해서 받기 위해 while문
 				try {
@@ -654,9 +693,8 @@ public class Server extends JFrame {
 					} else
 						continue;
 					if (cm.code.matches("100")) {
-						UserName = cm.UserName;
-						//UserStatus = "O"; // Online 상태
 						Login();
+						
 					} else if (cm.code.matches("200")) {
 						msg = String.format("[%s] %s", cm.UserName, cm.data);
 						AppendText(msg); // server 화면에 출력
@@ -715,6 +753,13 @@ public class Server extends JFrame {
 						} else if (cm.data.matches("STAY")) {
 							Stay(cm);
 						}
+					}
+					else if (cm.code.matches("1100")) { 
+						MakeRoom();
+					}
+					else if (cm.code.matches("1200")) { 
+						UserName = cm.UserName;
+						JoinRoom(cm);
 					}
 					else { // 300, 500, ... 기타 object는 모두 방송한다.
 						WriteAllObject(obcm);
