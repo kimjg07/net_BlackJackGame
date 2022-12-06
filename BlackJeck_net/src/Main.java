@@ -950,6 +950,7 @@ public class Main extends JFrame{
 			u4_Sum.setText("0");
 			d_Sum.setText("0");
 			d_checksum=0;
+			d_turn=0;
 		}
 		public void setButton(String name) {
 			if(name.equals(myName))
