@@ -53,10 +53,11 @@ public class Server extends JFrame {
 	public String dealerStatus = "A"; //딜러 상태 버스트 B 살았을때 A
 	public int userCnt = 0; //user가 들어온 순서 user class에 기입
 	public int dealerCardCnt = 0;
-	public HashMap<Integer,String>roomList = new HashMap<Integer,String>();  //현재 존재하는 방 리스트
+	//public HashMap<Integer,String>roomList = new HashMap<Integer,String>();  //현재 존재하는 방 리스트
 	public int room_id = 0; //방 코드
 	public String userList = null; //방의 참가한 유저 리스트
 	public Vector<GameSet> gs = new Vector<GameSet>();
+	public Vector<Integer> roomList = new Vector<Integer>();
 	
 	/**
 	 * Launch the application.
@@ -226,14 +227,14 @@ public class Server extends JFrame {
 			String msg = "[" + UserName + "]님이 입장 하였습니다.\n";
 			WriteOthers(msg); // 아직 user_vc에 새로 입장한 user는 포함되지 않았다.
 			
-			list = UserOrder[0] + " " + UserOrder[1] + " " + UserOrder[2] + " " + UserOrder[3];
+			list = gs.get(0).UserOrder[0] + " " + gs.get(0).UserOrder[1] + " " + gs.get(0).UserOrder[2] + " " + gs.get(0).UserOrder[3];
 			
 			WriteList(list);
 		}
 		
 		public void Login() {
-			for(int key : roomList.keySet()) {
-				User obcm = new User("SERVER", "100", ""+key); 
+			for(int i=0;i<roomList.size();i++) {
+				User obcm = new User("SERVER", "100", ""+roomList.get(i)); 
 				WriteAllObject(obcm);
 			}
 		}
@@ -266,6 +267,7 @@ public class Server extends JFrame {
 		public void WriteAllRoomObject(Object ob) {
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
+				System.out.println(user.currentRoom_id);
 				user.WriteOneObject(ob);
 			}
 		}
@@ -291,10 +293,11 @@ public class Server extends JFrame {
 		public void WriteList(String str) {
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
-				if(user.currentRoom_id == currentRoom_id)
+				//if(user.currentRoom_id == currentRoom_id)
 					user.WriteOneList(str);
 			}
 		}
+		
 		// Windows 처럼 message 제외한 나머지 부분은 NULL 로 만들기 위한 함수
 		public byte[] MakePacket(String msg) {
 			byte[] packet = new byte[BUF_LEN];
@@ -606,10 +609,10 @@ public class Server extends JFrame {
 		}
 		
 		public void Bet(User cm) {
-			int oldAmount = UserMoney.get(cm.UserName);
+			/*int oldAmount = 1000;
 			UserMoney.replace(cm.UserName, oldAmount - 100);
 			int newAmount = UserMoney.get(cm.UserName);
-			betAmount = oldAmount - newAmount;
+			betAmount = oldAmount - newAmount;*/
 			String msg = cm.UserName + "님이" + betAmount + "를 배팅하셨습니다.";
 			WriteAll(msg);
 			UserBetStatus++;
@@ -646,7 +649,7 @@ public class Server extends JFrame {
 		public void MakeRoom(User cm) {
 			//userList가 비어있으면 UserName 삽입
 			currentRoom_id = cm.room_id;
-			roomList.put(room_id, UserName);
+			roomList.add(currentRoom_id);
 			gs.add(new GameSet(currentRoom_id));
 			User obcm = new User("SERVER", "1100", "" + currentRoom_id); //room_id 클라이언트에게 전송
 			WriteAllRoomObject(obcm);
@@ -760,7 +763,6 @@ public class Server extends JFrame {
 						MakeRoom(cm);
 					}
 					else if (cm.code.matches("1200")) { 
-						
 						JoinRoom(cm);
 					}
 					else { // 300, 500, ... 기타 object는 모두 방송한다.

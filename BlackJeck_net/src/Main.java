@@ -741,7 +741,7 @@ public class Main extends JFrame{
 	class ListenNetwork extends Thread {
 		public void run() {
 			while (true) {
-				try {
+				/*try {
 					// String msg = dis.readUTF();
 //					byte[] b = new byte[BUF_LEN];
 //					int ret;
@@ -824,8 +824,8 @@ public class Main extends JFrame{
 					} catch (Exception ee) {
 						break;
 					} // catch문 끝
-				} // 바깥 catch문끝	``	
-
+				} // 바깥 catch문끝	
+*/
 			}
 		}
 	}

@@ -84,7 +84,7 @@ public class WaitRoom extends JFrame{
 		public void run() {
 			while (true) {
 				try {
-					
+					Main main;
 					Object obcm = null;
 					String msg = null;
 					User cm;
@@ -100,10 +100,42 @@ public class WaitRoom extends JFrame{
 					if (obcm instanceof User) {
 						cm = (User) obcm;
 						msg = String.format("[%s] %s", cm.UserName, cm.data);
+						System.out.println(msg);
 					} else
 						continue;
 					switch (cm.code) {
 					case "100":
+						System.out.println(msg);
+						break;
+					case "200": // chat message
+						System.out.println(msg);
+						gameMain.AppendText(msg);
+						break;
+					case "300": // 유저 리스트 갱신 프로토콜
+						String uList[] = cm.data.split(" ");
+						for(int i=0;i<4;i++) {
+							System.out.println(uList[i]);
+						}
+						gameMain.setUserList(uList);
+						break;
+					case "400":
+						break;
+					case "500":
+						break;
+					case "600":
+						gameMain.setClear();
+						break;
+					case "700":
+						break;
+					case "800":
+						System.out.println(cm.UserName+" : "+cm.checkSum);
+						gameMain.setCardimg(cm.UserName,cm.data,cm.checkSum,cm.turn);
+						break;
+					case "900":
+						gameMain.setButton(cm.data);
+						break;
+					case "1000":
+						gameMain.setDealerToggle();
 						break;
 					case "1100":
 						setRoom(cm.room_id);
