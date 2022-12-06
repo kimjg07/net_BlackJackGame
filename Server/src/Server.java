@@ -53,11 +53,10 @@ public class Server extends JFrame {
 	public String dealerStatus = "A"; //딜러 상태 버스트 B 살았을때 A
 	public int userCnt = 0; //user가 들어온 순서 user class에 기입
 	public int dealerCardCnt = 0;
-	//public HashMap<Integer,String>roomList = new HashMap<Integer,String>();  //현재 존재하는 방 리스트
+	public HashMap<Integer,String>roomList = new HashMap<Integer,String>();  //현재 존재하는 방 리스트
 	public int room_id = 0; //방 코드
 	public String userList = null; //방의 참가한 유저 리스트
 	public Vector<GameSet> gs = new Vector<GameSet>();
-	public Vector<Integer> roomList = new Vector<Integer>();
 	
 	/**
 	 * Launch the application.
@@ -217,24 +216,28 @@ public class Server extends JFrame {
 		}
 		
 		public void JoinRoom(User cm) {
-			gs.get(0).UserOrder[gs.get(0).userCnt] = UserName; gs.get(0).userCnt++;
+			for(int i=0;i<gs.size();i++) {
+				if(cm.data.equals(gs.get(i).title)) {
+					gs.get(i).UserOrder[gs.get(i).userCnt] = UserName;
+					gs.get(i).userCnt++;
+					currentRoom_id=gs.get(i).room_id;
+					System.out.println(UserName + ": "+gs.get(i).room_id);
+					list = gs.get(i).UserOrder[0] + " " + gs.get(i).UserOrder[1] + " " + gs.get(i).UserOrder[2] + " " + gs.get(i).UserOrder[3];
+				}
+			}
 			//UserMoney.put(UserName,1000);
 			UserStatus = "A";
-			currentRoom_id = cm.room_id;
 			AppendText("새로운 참가자 " + UserName + " 입장.");
 			WriteOne("Welcome to Java chat server\n");
 			WriteOne(UserName + "님 환영합니다.\n"); // 연결된 사용자에게 정상접속을 알림
 			String msg = "[" + UserName + "]님이 입장 하였습니다.\n";
-			WriteOthers(msg); // 아직 user_vc에 새로 입장한 user는 포함되지 않았다.
-			
-			list = gs.get(0).UserOrder[0] + " " + gs.get(0).UserOrder[1] + " " + gs.get(0).UserOrder[2] + " " + gs.get(0).UserOrder[3];
-			
+			WriteOthers(msg); // 아직 user_vc에 새로 입장한 user는 포함되지 않았다.			
 			WriteList(list);
 		}
 		
 		public void Login() {
-			for(int i=0;i<roomList.size();i++) {
-				User obcm = new User("SERVER", "100", ""+roomList.get(i)); 
+			for(int key : roomList.keySet()) {
+				User obcm = new User("SERVER", "100", ""+key); 
 				WriteAllObject(obcm);
 			}
 		}
@@ -267,7 +270,6 @@ public class Server extends JFrame {
 		public void WriteAllRoomObject(Object ob) {
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
-				System.out.println(user.currentRoom_id);
 				user.WriteOneObject(ob);
 			}
 		}
@@ -293,11 +295,10 @@ public class Server extends JFrame {
 		public void WriteList(String str) {
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
-				//if(user.currentRoom_id == currentRoom_id)
+				if(user.currentRoom_id == currentRoom_id)
 					user.WriteOneList(str);
 			}
 		}
-		
 		// Windows 처럼 message 제외한 나머지 부분은 NULL 로 만들기 위한 함수
 		public byte[] MakePacket(String msg) {
 			byte[] packet = new byte[BUF_LEN];
@@ -434,29 +435,35 @@ public class Server extends JFrame {
 					break;
 				}
 				String primaryKey = card_Type + card_num;
-				for(int i=0;i<CardList.size();i++) {
-					if(CardList.get(i).equals(primaryKey) == true)
-						cnt = true;
+				for(int j=0; j < gs.size() ; j++) {
+					if(gs.get(j).room_id == currentRoom_id) {
+						for(int i=0;i<gs.get(j).CardList.size();i++) {
+							if(gs.get(j).CardList.get(i).equals(primaryKey) == true)
+								cnt = true;
+						}
+						if(cnt == false) {
+							if(card_num<10) {
+								checkSum+=card_num;
+							}
+							else
+								checkSum+=10;
+							AppendText(UserName +":"+checkSum);
+							gs.get(j).CardList.add(primaryKey);
+							User obcm = new User(UserName, "800", primaryKey); 
+							obcm.setCheckSum(checkSum);
+							obcm.turn = userTurn;
+							userTurn++;
+							if(checkSum > 21) {
+								UserStatus = "B";
+								obcm.UserStatus = "B";
+							}
+							WriteAllObject(obcm);
+							break;
+						}
+					}
 				}
-				if(cnt == false) {
-					if(card_num<10) {
-						checkSum+=card_num;
-					}
-					else
-						checkSum+=10;
-					AppendText(UserName +":"+checkSum);
-					CardList.add(primaryKey);
-					User obcm = new User(UserName, "800", primaryKey); 
-					obcm.setCheckSum(checkSum);
-					obcm.turn = userTurn;
-					userTurn++;
-					if(checkSum > 21) {
-						UserStatus = "B";
-						obcm.UserStatus = "B";
-					}
-					WriteAllObject(obcm);
+				if(cnt == false)
 					break;
-				}
 			}
 		}
 		
@@ -482,123 +489,140 @@ public class Server extends JFrame {
 				}
 			
 				String primaryKey = card_Type + card_num;
-				for(int i=0;i<CardList.size();i++) {
-					if(CardList.get(i).equals(primaryKey) == true)
-						cnt = true;
-				}
-				if(cnt == false) {
-					if(card_num<10) {
-						dealerCheckSum+=card_num;
-					}
-					else
-						dealerCheckSum+=10;
-					AppendText("Dealer:"+dealerCheckSum);
-					CardList.add(primaryKey);
-					dealerCardCnt++;
-					User obcm = new User("Dealer", "800", primaryKey); 
-					obcm.setCheckSum(dealerCheckSum);
-					if(dealerCheckSum > 21) {
-						dealerStatus = "B";
-						obcm.UserStatus = "B";
-						WriteAll("Dealer가 BUST 하였습니다.");
-						for (int i = 0; i < user_vc.size(); i++) {
-							UserService user = (UserService) user_vc.elementAt(i);
-							if (!(user.UserStatus.equals("B")) && (user.currentRoom_id == currentRoom_id)) {
-								User cm = new User("SERVER", "600", UserName);
-								cm.amount += 200;
-								WriteAll(user.UserName + "님이 이기셨습니다");
-								WriteAllObject(cm);
-							}	
+				for(int j=0 ; j < gs.size() ; j++) {
+					if(gs.get(j).room_id == currentRoom_id) {
+						for(int i=0;i<gs.get(j).CardList.size();i++) {
+							if(gs.get(j).CardList.get(i).equals(primaryKey) == true)
+								cnt = true;
 						}
-						CardList.clear();
-						order = 0;
-						UserBetStatus = 0;
-						dealerCheckSum = 0;
-						userTurn = 0;
-						dealerStatus = "A";
-						for (int i = 0; i < user_vc.size(); i++) {
-							UserService user = (UserService) user_vc.elementAt(i);
-							if(user.currentRoom_id == currentRoom_id) {
-								user.UserStatus = "A";
-								user.checkSum = 0;
+						if(cnt == false) {
+							if(card_num<10) {
+								gs.get(j).dealerCheckSum+=card_num;
 							}
+							else
+								gs.get(j).dealerCheckSum+=10;
+							AppendText("Dealer:"+gs.get(j).dealerCheckSum);
+							gs.get(j).CardList.add(primaryKey);
+							gs.get(j).dealerCardCnt++;
+							User obcm = new User("Dealer", "800", primaryKey); 
+							obcm.setCheckSum(gs.get(j).dealerCheckSum);
+							if(gs.get(j).dealerCheckSum > 21) {
+								gs.get(j).dealerStatus = "B";
+								obcm.UserStatus = "B";
+								WriteAll("Dealer가 BUST 하였습니다.");
+								for (int i = 0; i < user_vc.size(); i++) {
+									UserService user = (UserService) user_vc.elementAt(i);
+									if (!(user.UserStatus.equals("B")) && (user.currentRoom_id == currentRoom_id)) {
+										User cm = new User("SERVER", "600", UserName);
+										cm.amount += 200;
+										WriteAll(user.UserName + "님이 이기셨습니다");
+										WriteAllObject(cm);
+									}	
+								}
+								gs.get(j).CardList.clear();
+								gs.get(j).order = 0;
+								gs.get(j).UserBetStatus = 0;
+								gs.get(j).dealerCheckSum = 0;
+								userTurn = 0;
+								gs.get(j).dealerStatus = "A";
+								for (int i = 0; i < user_vc.size(); i++) {
+									UserService user = (UserService) user_vc.elementAt(i);
+									if(user.currentRoom_id == currentRoom_id) {
+										user.UserStatus = "A";
+										user.checkSum = 0;
+									}
+								}
+								break;
+							}
+							WriteAllObject(obcm);
+							break;
 						}
-						break;
 					}
-					WriteAllObject(obcm);
-					break;
 				}
+				if(cnt == false)
+					break;
 			}
 		}
 		
 		public void CurrentPerson() {
-			User obcm = new User("SERVER", "900", UserOrder[order]);
-			WriteAllObject(obcm);
-			order++;
+			for(int i=0 ; i < gs.size(); i++) {
+				if(gs.get(i).room_id == currentRoom_id) {
+					User obcm = new User("SERVER", "900", gs.get(i).UserOrder[gs.get(i).order]);
+					WriteAllObject(obcm);
+					gs.get(i).order++;
+				}
+			}
 		}
 		
 		public void NextPerson() {  //버스트나 스테이 상태 판단하고 순서 배정
-			if(order == 4) {
-				order = 0;
-				DealerTurn();
-			}
-			UserService user = (UserService) user_vc.elementAt(order);
-			if ((user.currentRoom_id == currentRoom_id) && (user.UserStatus.equals("S") || user.UserStatus.equals("B"))) { 
-				order++;
-				NextPerson();
-			}
-			else {
-				User obcm = new User("SERVER", "900", UserOrder[order]);
-				WriteAllObject(obcm);
-				order++;
+			for(int i=0 ; i<gs.size(); i++) {
+				if(gs.get(i).room_id == currentRoom_id) {
+					if(gs.get(i).order == 4) {
+						gs.get(i).order = 0;
+						DealerTurn();
+					}
+					UserService user = (UserService) user_vc.elementAt(gs.get(i).order);
+					if ((user.currentRoom_id == currentRoom_id) && (user.UserStatus.equals("S") || user.UserStatus.equals("B"))) { 
+						gs.get(i).order++;
+						NextPerson();
+					}
+					else {
+						User obcm = new User("SERVER", "900", gs.get(i).UserOrder[gs.get(i).order]);
+						WriteAllObject(obcm);
+						gs.get(i).order++;
+					}
+				}
 			}
 		}
 		
 		public void DealerTurn() { //딜러 버스트-22이상 힛-16이하 스테이-17이상 상태 판단
-			if(dealerCheckSum < 17) {
-				DealerSendCard();
-			}
-			else if(dealerCheckSum >= 17) {
-				if(dealerCardCnt == 2) {
-					String msg = "Cardopen";
-					User obcm = new User("SERVER", "1000", msg);
-					WriteAllObject(obcm);
-				}
-				if(EndChecking() == true) {
-					for (int i = 0; i < user_vc.size(); i++) {
-						UserService user = (UserService) user_vc.elementAt(i);
-						if (!(user.UserStatus.equals("B"))) {
-							System.out.println(user.checkSum + "x" + dealerCheckSum);
-							if(user.checkSum > dealerCheckSum) 
-								WriteAll(user.UserName + "님이 이겼습니다");
-							else if(user.checkSum == dealerCheckSum) 
-								WriteAll(user.UserName + "님이 비겼습니다");
-							else
-								WriteAll(user.UserName + "님이 졌습니다");
+			for(int j=0 ; j < gs.size(); j++) {
+				if(gs.get(j).room_id == currentRoom_id) {
+					if(gs.get(j).dealerCheckSum < 17) {
+						DealerSendCard();
+					}
+					else if(gs.get(j).dealerCheckSum >= 17) {
+						if(gs.get(j).dealerCardCnt == 2) {
+							String msg = "Cardopen";
+							User obcm = new User("SERVER", "1000", msg);
+							WriteAllObject(obcm);
+						}
+						if(EndChecking() == true) {
+							for (int i = 0; i < user_vc.size(); i++) {
+								UserService user = (UserService) user_vc.elementAt(i);
+								if (!(user.UserStatus.equals("B"))) {
+									if(user.checkSum > gs.get(j).dealerCheckSum) 
+										WriteAll(user.UserName + "님이 이겼습니다");
+									else if(user.checkSum == gs.get(j).dealerCheckSum) 
+										WriteAll(user.UserName + "님이 비겼습니다");
+									else
+										WriteAll(user.UserName + "님이 졌습니다");
+								}	
+							}
+							User cm = new User("SERVER", "600", UserName);
+							WriteAllObject(cm);
+							
+							gs.get(j).CardList.clear();
+							gs.get(j).order = 0;
+							gs.get(j).dealerCheckSum = 0;
+							userTurn = 0;
+							gs.get(j).dealerStatus = "A";
+							for (int i = 0; i < user_vc.size(); i++) {
+								UserService user = (UserService) user_vc.elementAt(i);
+								user.UserStatus = "A";
+								user.checkSum = 0;
+							}
 						}	
 					}
-					User cm = new User("SERVER", "600", UserName);
-					WriteAllObject(cm);
-					
-					CardList.clear();
-					order = 0;
-					dealerCheckSum = 0;
-					userTurn = 0;
-					dealerStatus = "A";
-					for (int i = 0; i < user_vc.size(); i++) {
-						UserService user = (UserService) user_vc.elementAt(i);
-						user.UserStatus = "A";
-						user.checkSum = 0;
-					}
-				}	
-			}	
+				}
+			}
 		}
 		
 		public boolean EndChecking() {  //user가 모두 b나 s일때 그리고 딜러가 b나 checkSum이 17이상 일때 게임 종료
 			int endCnt=0;
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
-				if (user.UserStatus == "S" || user.UserStatus == "B") {
+				if ((user.currentRoom_id == currentRoom_id) && user.UserStatus == "S" || user.UserStatus == "B") {
 					endCnt++;
 				}	
 			}
@@ -609,17 +633,24 @@ public class Server extends JFrame {
 		}
 		
 		public void Bet(User cm) {
-			/*int oldAmount = 1000;
+			int roomchecker = 0;
+			
+			for(int i=0;i < gs.size();i++) {
+				if(gs.get(i).room_id == currentRoom_id) {
+					roomchecker = i;
+				}
+			}
+			int oldAmount = UserMoney.get(cm.UserName);
 			UserMoney.replace(cm.UserName, oldAmount - 100);
 			int newAmount = UserMoney.get(cm.UserName);
-			betAmount = oldAmount - newAmount;*/
+			betAmount = oldAmount - newAmount;
 			String msg = cm.UserName + "님이" + betAmount + "를 배팅하셨습니다.";
 			WriteAll(msg);
-			UserBetStatus++;
-			if(UserBetStatus == 4) {
+			gs.get(roomchecker).UserBetStatus++;
+			if(gs.get(roomchecker).UserBetStatus == 4) {
 				SendAllCard();
 				SendAllCard();
-				UserBetStatus = 0;
+				gs.get(roomchecker).UserBetStatus = 0;
 				CurrentPerson();
 			}
 		}
@@ -647,11 +678,13 @@ public class Server extends JFrame {
 		}
 		 
 		public void MakeRoom(User cm) {
-			//userList가 비어있으면 UserName 삽입
-			currentRoom_id = cm.room_id;
-			roomList.add(currentRoom_id);
-			gs.add(new GameSet(currentRoom_id));
-			User obcm = new User("SERVER", "1100", "" + currentRoom_id); //room_id 클라이언트에게 전송
+			currentRoom_id = room_id;
+			gs.add(new GameSet(room_id,cm.data));
+			gs.get(room_id).UserOrder[gs.get(room_id).userCnt] = UserName;
+			gs.get(room_id).userCnt++;
+			room_id++;
+			User obcm = new User("SERVER", "1100", cm.data); //room_id 클라이언트에게 전송
+			WriteOne(UserName + "님 환영합니다.\n"); // 연결된 사용자에게 정상접속을 알림
 			WriteAllRoomObject(obcm);
 		}
 		
@@ -763,6 +796,7 @@ public class Server extends JFrame {
 						MakeRoom(cm);
 					}
 					else if (cm.code.matches("1200")) { 
+						
 						JoinRoom(cm);
 					}
 					else { // 300, 500, ... 기타 object는 모두 방송한다.
