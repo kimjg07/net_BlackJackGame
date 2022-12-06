@@ -27,13 +27,15 @@ public class WaitRoom extends JFrame{
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
 	private JTextPane textArea;
-	Main gameMain;
+	private Main gameMain;
 	String myName;
 	JButton createRoom;
 	JScrollPane Roominfo;
 	JDialog createRoomlog;
 	JButton enterRoom;
+	WaitRoom wr;
 	public WaitRoom(String username, String ip_addr, String port_no) {
+		wr = this;
 		getContentPane().setLayout(null);
 		Myaction action = new Myaction();
 		myName = username;
@@ -64,8 +66,6 @@ public class WaitRoom extends JFrame{
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			oos.flush();
 			ois = new ObjectInputStream(socket.getInputStream());
-			System.out.println(oos);
-			System.out.println(ois);
 			//SendMessage("/login " + UserName);
 			User obcm = new User(myName, "100", "Hello");
 			SendObject(obcm);
@@ -84,7 +84,7 @@ public class WaitRoom extends JFrame{
 		public void run() {
 			while (true) {
 				try {
-					Main main;
+					
 					Object obcm = null;
 					String msg = null;
 					User cm;
@@ -100,12 +100,10 @@ public class WaitRoom extends JFrame{
 					if (obcm instanceof User) {
 						cm = (User) obcm;
 						msg = String.format("[%s] %s", cm.UserName, cm.data);
-						System.out.println(msg);
 					} else
 						continue;
 					switch (cm.code) {
 					case "100":
-						System.out.println(msg);
 						break;
 					case "200": // chat message
 						System.out.println(msg);
@@ -138,7 +136,7 @@ public class WaitRoom extends JFrame{
 						gameMain.setDealerToggle();
 						break;
 					case "1100":
-						setRoom(cm.room_id);
+						setRoomList(cm.data);
 						break;
 					}
 				} catch (IOException e) {
@@ -160,11 +158,11 @@ public class WaitRoom extends JFrame{
 		}
 	}
 	
-	public void setRoom(int id) {
+	public void setRoomList(String title) {
 		int len = textArea.getDocument().getLength();
 		// 끝으로 이동
 		textArea.setCaretPosition(len);
-		textArea.replaceSelection(id + "\n");
+		textArea.replaceSelection(title + "\n");
 	}
 	class Myaction implements ActionListener // 내부클래스로 액션 이벤트 처리 클래스
 	{
@@ -172,19 +170,38 @@ public class WaitRoom extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == createRoom) {
 				String roomName = JOptionPane.showInputDialog("방 제목을 입력하세요.");
-				User obcm = new User(myName,"1100","createRoom");
-				obcm.room_id = Integer.parseInt(roomName.trim());
+				User obcm = new User(myName,"1100",roomName);
+				gameMain = new Main(myName,wr);
 				SendObject(obcm);
-				gameMain = new Main(myName,oos,ois);
 				setVisible(false);
 			}
 			else if(e.getSource() == enterRoom) {
-				String roomNum = JOptionPane.showInputDialog("방 번호를 입력하세요.");
-				User obcm = new User(myName,"1100","createRoom");
-				obcm.room_id = Integer.parseInt(roomNum.trim());
+				String roomName = JOptionPane.showInputDialog("방 제목 입력하세요.");
+				User obcm = new User(myName,"1200",roomName);
+				gameMain = new Main(myName,wr);
 				SendObject(obcm);
-				gameMain = new Main(myName,oos,ois);
 				setVisible(false);
+			}
+		}
+	}
+	
+	public void SendMessage(String msg) {
+		try {
+			User obcm = new User(myName, "200", msg);
+			oos.writeObject(obcm);
+		} catch (IOException e) {
+			// AppendText("dos.write() error");
+			gameMain.AppendText("oos.writeObject() error");
+			try {
+//				dos.close();
+//				dis.close();
+				ois.close();
+				oos.close();
+				socket.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				System.exit(0);
 			}
 		}
 	}

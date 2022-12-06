@@ -107,10 +107,10 @@ public class Main extends JFrame{
     private int userCount=1;
     private int d_checksum;
     private ImageIcon d_card;
-	public Main(String username, ObjectOutputStream oos,ObjectInputStream ois) {
+    private WaitRoom wr;
+	public Main(String username,WaitRoom wr) {
 		myName = username;
-		this.oos = oos;
-		this.ois = ois;
+		this.wr = wr;
 		System.out.println(oos);
 		System.out.println(ois);
 		getContentPane().setBackground(new Color(255, 255, 255));
@@ -449,10 +449,6 @@ public class Main extends JFrame{
 		getContentPane().add(GamePanel);
 		
 		
-
-		ListenNetwork net = new ListenNetwork();
-		net.start();
-		
 		setVisible(true);
 		
 		
@@ -466,7 +462,7 @@ public class Main extends JFrame{
 			if (e.getSource() == SendButton || e.getSource() == textField) {
 				String msg = null;
 				msg = textField.getText();
-				SendMessage(msg);
+				wr.SendMessage(msg);
 				textField.setText(""); // 메세지를 보내고 나면 메세지 쓰는창을 비운다.
 				textField.requestFocus(); // 메세지를 보내고 커서를 다시 텍스트 필드로 위치시킨다
 				
@@ -475,16 +471,16 @@ public class Main extends JFrame{
 			}else if(e.getSource() == BetButton) {
 				//
 				User obcm = new User(myName, "500", "BET");
-				SendObject(obcm);
+				wr.SendObject(obcm);
 				BetButton.setEnabled(false);
 			}else if(e.getSource() == stayButton) {
 				User obcm = new User(myName, "700", "STAY");
-				SendObject(obcm);
+				wr.SendObject(obcm);
 				heatButton.setEnabled(false);
 				stayButton.setEnabled(false);
 			}else if(e.getSource() == heatButton) {
 				User obcm = new User(myName, "700", "HEAT");
-				SendObject(obcm);
+				wr.SendObject(obcm);
 				heatButton.setEnabled(false);
 				stayButton.setEnabled(false);
 			}else if(e.getSource()==resetButton) {
@@ -738,98 +734,7 @@ public class Main extends JFrame{
 	}
 	
 	
-	class ListenNetwork extends Thread {
-		public void run() {
-			while (true) {
-				/*try {
-					// String msg = dis.readUTF();
-//					byte[] b = new byte[BUF_LEN];
-//					int ret;
-//					ret = dis.read(b);
-//					if (ret < 0) {
-//						AppendText("dis.read() < 0 error");
-//						try {
-//							dos.close();
-//							dis.close();
-//							socket.close();
-//							break;
-//						} catch (Exception ee) {
-//							break;
-//						}// catch문 끝
-//					}
-//					String	msg = new String(b, "euc-kr");
-//					msg = msg.trim(); // 앞뒤 blank NULL, \n 모두 제거
 
-					Object obcm = null;
-					String msg = null;
-					User cm;
-					try {
-						obcm = ois.readObject();
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						break;
-					}
-					if (obcm == null)
-						break;
-					if (obcm instanceof User) {
-						cm = (User) obcm;
-						msg = String.format("[%s] %s", cm.UserName, cm.data);
-					} else
-						continue;
-					switch (cm.code) {
-					case "100":
-						break;
-					case "200": // chat message
-						System.out.println(msg);
-						AppendText(msg);
-						break;
-					case "300": // 유저 리스트 갱신 프로토콜
-						String uList[] = cm.data.split(" ");
-						for(int i=0;i<4;i++) {
-							System.out.println(uList[i]);
-						}
-						setUserList(uList);
-						break;
-					case "400":
-						break;
-					case "500":
-						break;
-					case "600":
-						setClear();
-						break;
-					case "700":
-						break;
-					case "800":
-						System.out.println(cm.UserName+" : "+cm.checkSum);
-						setCardimg(cm.UserName,cm.data,cm.checkSum,cm.turn);
-						break;
-					case "900":
-						setButton(cm.data);
-						break;
-					case "1000":
-						setDealerToggle();
-						break;
-					}
-				} catch (IOException e) {
-					AppendText("ois.readObject() error");
-					try {
-//						dos.close();
-//						dis.close();
-						ois.close();
-						oos.close();
-						socket.close();
-
-						break;
-					} catch (Exception ee) {
-						break;
-					} // catch문 끝
-				} // 바깥 catch문끝	
-*/
-			}
-		}
-	}
-	
 	public void AppendText(String msg) {
 		textArea.append(msg + "\n");
 		textArea.setCaretPosition(textArea.getText().length());
@@ -858,50 +763,6 @@ public class Main extends JFrame{
 		}
 	}
 	
-	// Windows 처럼 message 제외한 나머지 부분은 NULL 로 만들기 위한 함수
-		public byte[] MakePacket(String msg) {
-			byte[] packet = new byte[BUF_LEN];
-			byte[] bb = null;
-			int i;
-			for (i = 0; i < BUF_LEN; i++)
-				packet[i] = 0;
-			try {
-				bb = msg.getBytes("euc-kr");
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				System.exit(0);
-			}
-			for (i = 0; i < bb.length; i++)
-				packet[i] = bb[i];
-			return packet;
-		}
-
-		// Server에게 network으로 전송
-		public void SendMessage(String msg) {
-			try {
-				// dos.writeUTF(msg);
-//				byte[] bb;
-//				bb = MakePacket(msg);
-//				dos.write(bb, 0, bb.length);
-				User obcm = new User(myName, "200", msg);
-				oos.writeObject(obcm);
-			} catch (IOException e) {
-				// AppendText("dos.write() error");
-				AppendText("oos.writeObject() error");
-				try {
-//					dos.close();
-//					dis.close();
-					ois.close();
-					oos.close();
-					socket.close();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-					System.exit(0);
-				}
-			}
-		}
 		
 		public void setDealerToggle() {
 			dc2.setIcon(d_card);
@@ -950,7 +811,6 @@ public class Main extends JFrame{
 			u4_Sum.setText("0");
 			d_Sum.setText("0");
 			d_checksum=0;
-			d_turn=0;
 		}
 		public void setButton(String name) {
 			if(name.equals(myName))
@@ -959,14 +819,7 @@ public class Main extends JFrame{
 				stayButton.setEnabled(true);
 			}
 		}
-		public void SendObject(Object ob) { // 서버로 메세지를 보내는 메소드
-			try {
-				oos.writeObject(ob);
-			} catch (IOException e) {
-				// textArea.append("메세지 송신 에러!!\n");
-				AppendText("SendObject Error");
-			}
-		}
+		
 	
 
 	
