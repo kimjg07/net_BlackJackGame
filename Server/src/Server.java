@@ -640,10 +640,7 @@ public class Server extends JFrame {
 					roomchecker = i;
 				}
 			}
-			int oldAmount = UserMoney.get(cm.UserName);
-			UserMoney.replace(cm.UserName, oldAmount - 100);
-			int newAmount = UserMoney.get(cm.UserName);
-			betAmount = oldAmount - newAmount;
+			
 			String msg = cm.UserName + "님이" + betAmount + "를 배팅하셨습니다.";
 			WriteAll(msg);
 			gs.get(roomchecker).UserBetStatus++;
@@ -679,6 +676,7 @@ public class Server extends JFrame {
 		 
 		public void MakeRoom(User cm) {
 			currentRoom_id = room_id;
+			UserStatus = "A";
 			gs.add(new GameSet(room_id,cm.data));
 			gs.get(room_id).UserOrder[gs.get(room_id).userCnt] = UserName;
 			gs.get(room_id).userCnt++;
