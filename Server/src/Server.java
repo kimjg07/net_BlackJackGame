@@ -523,7 +523,6 @@ public class Server extends JFrame {
 								gs.get(j).order = 0;
 								gs.get(j).UserBetStatus = 0;
 								gs.get(j).dealerCheckSum = 0;
-								gs.get(j).dealerStatus = "A";
 								gs.get(j).dealerCardCnt = 0;
 								for (int i = 0; i < user_vc.size(); i++) {
 									UserService user = (UserService) user_vc.elementAt(i);
@@ -583,6 +582,10 @@ public class Server extends JFrame {
 				if(gs.get(j).room_id == currentRoom_id) {
 					if(gs.get(j).dealerCheckSum < 17) {
 						DealerSendCard();
+						if(gs.get(j).dealerStatus.equals("B")) {
+							gs.get(j).dealerStatus = "A";
+							return true;
+						}
 					}
 					else if(gs.get(j).dealerCheckSum >= 17) {
 						if(gs.get(j).dealerCardCnt == 2) {
