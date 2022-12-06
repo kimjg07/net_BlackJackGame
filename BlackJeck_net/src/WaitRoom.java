@@ -27,13 +27,15 @@ public class WaitRoom extends JFrame{
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
 	private JTextPane textArea;
-	Main gameMain;
+	private Main gameMain;
 	String myName;
 	JButton createRoom;
 	JScrollPane Roominfo;
 	JDialog createRoomlog;
 	JButton enterRoom;
+	WaitRoom wr;
 	public WaitRoom(String username, String ip_addr, String port_no) {
+		wr = this;
 		getContentPane().setLayout(null);
 		Myaction action = new Myaction();
 		myName = username;
@@ -64,8 +66,6 @@ public class WaitRoom extends JFrame{
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			oos.flush();
 			ois = new ObjectInputStream(socket.getInputStream());
-			System.out.println(oos);
-			System.out.println(ois);
 			//SendMessage("/login " + UserName);
 			User obcm = new User(myName, "100", "Hello");
 			SendObject(obcm);
@@ -105,8 +105,38 @@ public class WaitRoom extends JFrame{
 					switch (cm.code) {
 					case "100":
 						break;
+					case "200": // chat message
+						System.out.println(msg);
+						gameMain.AppendText(msg);
+						break;
+					case "300": // 유저 리스트 갱신 프로토콜
+						String uList[] = cm.data.split(" ");
+						for(int i=0;i<4;i++) {
+							System.out.println(uList[i]);
+						}
+						gameMain.setUserList(uList);
+						break;
+					case "400":
+						break;
+					case "500":
+						break;
+					case "600":
+						gameMain.setClear();
+						break;
+					case "700":
+						break;
+					case "800":
+						System.out.println(cm.UserName+" : "+cm.checkSum);
+						gameMain.setCardimg(cm.UserName,cm.data,cm.checkSum,cm.turn);
+						break;
+					case "900":
+						gameMain.setButton(cm.data);
+						break;
+					case "1000":
+						gameMain.setDealerToggle();
+						break;
 					case "1100":
-						setRoom(cm.data);
+						setRoomList(cm.data);
 						break;
 					}
 				} catch (IOException e) {
@@ -128,7 +158,7 @@ public class WaitRoom extends JFrame{
 		}
 	}
 	
-	public void setRoom(String title) {
+	public void setRoomList(String title) {
 		int len = textArea.getDocument().getLength();
 		// 끝으로 이동
 		textArea.setCaretPosition(len);
@@ -141,16 +171,37 @@ public class WaitRoom extends JFrame{
 			if(e.getSource() == createRoom) {
 				String roomName = JOptionPane.showInputDialog("방 제목을 입력하세요.");
 				User obcm = new User(myName,"1100",roomName);
+				gameMain = new Main(myName,wr);
 				SendObject(obcm);
-				gameMain = new Main(myName,oos,ois);
 				setVisible(false);
 			}
 			else if(e.getSource() == enterRoom) {
 				String roomName = JOptionPane.showInputDialog("방 제목 입력하세요.");
 				User obcm = new User(myName,"1200",roomName);
+				gameMain = new Main(myName,wr);
 				SendObject(obcm);
-				gameMain = new Main(myName,oos,ois);
 				setVisible(false);
+			}
+		}
+	}
+	
+	public void SendMessage(String msg) {
+		try {
+			User obcm = new User(myName, "200", msg);
+			oos.writeObject(obcm);
+		} catch (IOException e) {
+			// AppendText("dos.write() error");
+			gameMain.AppendText("oos.writeObject() error");
+			try {
+//				dos.close();
+//				dis.close();
+				ois.close();
+				oos.close();
+				socket.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				System.exit(0);
 			}
 		}
 	}
