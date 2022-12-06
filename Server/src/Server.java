@@ -563,7 +563,7 @@ public class Server extends JFrame {
 							break;
 						}
 					}
-					UserService user = (UserService) user_vc.elementAt(gs.get(i).order);
+					UserService user = (UserService) user_vc.elementAt(i*4+gs.get(i).order);
 					if ((user.currentRoom_id == currentRoom_id) && (user.UserStatus.equals("S") || user.UserStatus.equals("B"))) { 
 						gs.get(i).order++;
 						NextPerson();
