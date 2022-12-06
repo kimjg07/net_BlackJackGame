@@ -525,9 +525,10 @@ public class Server extends JFrame {
 								gs.get(j).dealerCheckSum = 0;
 								userTurn = 0;
 								gs.get(j).dealerStatus = "A";
+								gs.get(j).dealerCardCnt = 0;
 								for (int i = 0; i < user_vc.size(); i++) {
 									UserService user = (UserService) user_vc.elementAt(i);
-									if(user.currentRoom_id == currentRoom_id) {
+									if(user.currentRoom_id == gs.get(j).room_id) {
 										user.UserStatus = "A";
 										user.checkSum = 0;
 									}
@@ -607,10 +608,13 @@ public class Server extends JFrame {
 							gs.get(j).dealerCheckSum = 0;
 							userTurn = 0;
 							gs.get(j).dealerStatus = "A";
+							gs.get(j).dealerCardCnt = 0;
 							for (int i = 0; i < user_vc.size(); i++) {
 								UserService user = (UserService) user_vc.elementAt(i);
-								user.UserStatus = "A";
-								user.checkSum = 0;
+								if(user.currentRoom_id == gs.get(j).room_id) {
+									user.UserStatus = "A";
+									user.checkSum = 0;
+								}
 							}
 						}	
 					}
