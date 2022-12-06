@@ -111,6 +111,7 @@ public class Main extends JFrame{
 	public Main(String username,WaitRoom wr) {
 		myName = username;
 		this.wr = wr;
+		setTitle(username);
 		System.out.println(oos);
 		System.out.println(ois);
 		getContentPane().setBackground(new Color(255, 255, 255));
@@ -811,6 +812,7 @@ public class Main extends JFrame{
 			u4_Sum.setText("0");
 			d_Sum.setText("0");
 			d_checksum=0;
+			d_turn=0;
 		}
 		public void setButton(String name) {
 			if(name.equals(myName))
