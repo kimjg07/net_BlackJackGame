@@ -106,10 +106,15 @@ public class WaitRoom extends JFrame{
 					case "100":
 						break;
 					case "200": // chat message
-						System.out.println(msg);
+						if(gameMain == null) {
+							continue;
+						}
 						gameMain.AppendText(msg);
 						break;
 					case "300": // 유저 리스트 갱신 프로토콜
+						if(gameMain == null) {
+							continue;
+						}
 						String uList[] = cm.data.split(" ");
 						for(int i=0;i<4;i++) {
 							System.out.println(uList[i]);
