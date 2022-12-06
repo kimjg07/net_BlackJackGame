@@ -523,7 +523,6 @@ public class Server extends JFrame {
 								gs.get(j).order = 0;
 								gs.get(j).UserBetStatus = 0;
 								gs.get(j).dealerCheckSum = 0;
-								userTurn = 0;
 								gs.get(j).dealerStatus = "A";
 								gs.get(j).dealerCardCnt = 0;
 								for (int i = 0; i < user_vc.size(); i++) {
@@ -531,6 +530,7 @@ public class Server extends JFrame {
 									if(user.currentRoom_id == gs.get(j).room_id) {
 										user.UserStatus = "A";
 										user.checkSum = 0;
+										user.userTurn = 0;
 									}
 								}
 								break;
@@ -560,7 +560,9 @@ public class Server extends JFrame {
 				if(gs.get(i).room_id == currentRoom_id) {
 					if(gs.get(i).order == 4) {
 						gs.get(i).order = 0;
-						DealerTurn();
+						if(DealerTurn() == true) {
+							break;
+						}
 					}
 					UserService user = (UserService) user_vc.elementAt(gs.get(i).order);
 					if ((user.currentRoom_id == currentRoom_id) && (user.UserStatus.equals("S") || user.UserStatus.equals("B"))) { 
@@ -576,7 +578,7 @@ public class Server extends JFrame {
 			}
 		}
 		
-		public void DealerTurn() { //딜러 버스트-22이상 힛-16이하 스테이-17이상 상태 판단
+		public boolean DealerTurn() { //딜러 버스트-22이상 힛-16이하 스테이-17이상 상태 판단
 			for(int j=0 ; j < gs.size(); j++) {
 				if(gs.get(j).room_id == currentRoom_id) {
 					if(gs.get(j).dealerCheckSum < 17) {
@@ -606,7 +608,6 @@ public class Server extends JFrame {
 							gs.get(j).CardList.clear();
 							gs.get(j).order = 0;
 							gs.get(j).dealerCheckSum = 0;
-							userTurn = 0;
 							gs.get(j).dealerStatus = "A";
 							gs.get(j).dealerCardCnt = 0;
 							for (int i = 0; i < user_vc.size(); i++) {
@@ -614,12 +615,15 @@ public class Server extends JFrame {
 								if(user.currentRoom_id == gs.get(j).room_id) {
 									user.UserStatus = "A";
 									user.checkSum = 0;
+									user.userTurn = 0;
 								}
 							}
+							return true;
 						}	
 					}
 				}
 			}
+			return false;
 		}
 		
 		public boolean EndChecking() {  //user가 모두 b나 s일때 그리고 딜러가 b나 checkSum이 17이상 일때 게임 종료
