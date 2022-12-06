@@ -222,6 +222,7 @@ public class Server extends JFrame {
 					gs.get(i).userCnt++;
 					currentRoom_id=gs.get(i).room_id;
 					System.out.println(UserName + ": "+gs.get(i).room_id);
+					list = gs.get(i).UserOrder[0] + " " + gs.get(i).UserOrder[1] + " " + gs.get(i).UserOrder[2] + " " + gs.get(i).UserOrder[3];
 				}
 			}
 			//UserMoney.put(UserName,1000);
@@ -230,10 +231,7 @@ public class Server extends JFrame {
 			WriteOne("Welcome to Java chat server\n");
 			WriteOne(UserName + "님 환영합니다.\n"); // 연결된 사용자에게 정상접속을 알림
 			String msg = "[" + UserName + "]님이 입장 하였습니다.\n";
-			WriteOthers(msg); // 아직 user_vc에 새로 입장한 user는 포함되지 않았다.
-			
-			list = UserOrder[0] + " " + UserOrder[1] + " " + UserOrder[2] + " " + UserOrder[3];
-			
+			WriteOthers(msg); // 아직 user_vc에 새로 입장한 user는 포함되지 않았다.			
 			WriteList(list);
 		}
 		
@@ -650,7 +648,6 @@ public class Server extends JFrame {
 		}
 		 
 		public void MakeRoom(User cm) {
-			//userList가 비어있으면 UserName 삽입
 			currentRoom_id = room_id;
 			gs.add(new GameSet(room_id,cm.data));
 			gs.get(room_id).UserOrder[gs.get(room_id).userCnt] = UserName;
