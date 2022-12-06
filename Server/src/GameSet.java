@@ -13,8 +13,10 @@ public class GameSet {
 	public int dealerCardCnt = 0;
 	public String userList = null; //방의 참가한 유저 리스트
 	public int room_id;
+	public String title = null;
 	
-	public GameSet(int room_id) {
+	public GameSet(int room_id,String title) {
 		this.room_id = room_id;
+		this.title=title;
 	}
 }
