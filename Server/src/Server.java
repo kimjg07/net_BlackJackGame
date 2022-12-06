@@ -237,7 +237,7 @@ public class Server extends JFrame {
 		
 		public void Login() {
 			for(int i=0; i < gs.size() ; i++) {
-				User obcm = new User("SERVER", "100", "" + gs.get(i).room_id); 
+				User obcm = new User("SERVER", "100", "" + gs.get(i).title); 
 				WriteAllObject(obcm);
 			}
 		}
