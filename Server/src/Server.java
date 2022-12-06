@@ -236,8 +236,8 @@ public class Server extends JFrame {
 		}
 		
 		public void Login() {
-			for(int key : roomList.keySet()) {
-				User obcm = new User("SERVER", "100", ""+key); 
+			for(int i=0; i < gs.size() ; i++) {
+				User obcm = new User("SERVER", "100", "" + gs.get(i).room_id); 
 				WriteAllObject(obcm);
 			}
 		}
@@ -270,7 +270,7 @@ public class Server extends JFrame {
 		public void WriteAllRoomObject(Object ob) {
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
-				user.WriteOneObject(ob);
+					user.WriteOneObject(ob);
 			}
 		}
 		
