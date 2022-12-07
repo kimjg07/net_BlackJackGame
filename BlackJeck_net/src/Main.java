@@ -135,33 +135,7 @@ public class Main extends JFrame{
 		u1_NameLabel.setBounds(38,332,122,38);
 		getContentPane().add(u1_NameLabel);
 		
-		u1Money = new JLabel();
-		u1Money.setForeground(Color.BLACK);
-		u1Money.setText("1000");
-		u1Money.setFont(new Font("맑은 고딕", Font.PLAIN, 30));
-		u1Money.setBounds(38,282,122,38);
-		getContentPane().add(u1Money);
 		
-		u2Money = new JLabel();
-		u2Money.setForeground(Color.BLACK);
-		u2Money.setText("1000");
-		u2Money.setFont(new Font("맑은 고딕", Font.PLAIN, 30));
-		u2Money.setBounds(283,282,122,38);
-		getContentPane().add(u2Money);
-		
-		u3Money = new JLabel();
-		u3Money.setForeground(Color.BLACK);
-		u3Money.setText("1000");
-		u3Money.setFont(new Font("맑은 고딕", Font.PLAIN, 30));
-		u3Money.setBounds(528,282,122,38);
-		getContentPane().add(u3Money);
-		
-		u4Money = new JLabel();
-		u4Money.setForeground(Color.BLACK);
-		u4Money.setText("1000");
-		u4Money.setFont(new Font("맑은 고딕", Font.PLAIN, 30));
-		u4Money.setBounds(773,282,122,38);
-		getContentPane().add(u4Money);
 		
 		u1_Sum = new JLabel();
 		u1_Sum.setBackground(Color.WHITE);
@@ -257,12 +231,10 @@ public class Main extends JFrame{
 		stayButton.setBounds(196, 10, 161, 53);
 		stayButton.setEnabled(false);
 		ButtonPanel.add(stayButton);
-		resetButton = new JButton("리셋");
-		resetButton.setBounds(367,10,161,53);
-		ButtonPanel.add(resetButton);
+		
 		stayButton.addActionListener(action);
 		heatButton.addActionListener(action);
-		resetButton.addActionListener(action);
+		
 		
 		GamePanel = new JPanel() {
 			public void paint(Graphics g) {
@@ -484,48 +456,6 @@ public class Main extends JFrame{
 				wr.SendObject(obcm);
 				heatButton.setEnabled(false);
 				stayButton.setEnabled(false);
-			}else if(e.getSource()==resetButton) {
-				u1c1.setVisible(false);
-				u1c2.setVisible(false);
-				u1c3.setVisible(false);
-				u1c4.setVisible(false);
-				u1c5.setVisible(false);
-				u1c6.setVisible(false);
-				//
-				u2c1.setVisible(false);
-				u2c2.setVisible(false);
-				u2c3.setVisible(false);
-				u2c4.setVisible(false);
-				u2c5.setVisible(false);
-				u2c6.setVisible(false);
-				//
-				u3c1.setVisible(false);
-				u3c2.setVisible(false);
-				u3c3.setVisible(false);
-				u3c4.setVisible(false);
-				u3c5.setVisible(false);
-				u3c6.setVisible(false);
-				//
-				u4c1.setVisible(false);
-				u4c2.setVisible(false);
-				u4c3.setVisible(false);
-				u4c4.setVisible(false);
-				u4c5.setVisible(false);
-				u4c6.setVisible(false);
-				
-				for(int i=0;i<4;i++) {
-					cardCount[i]=1;
-				}
-				for(int i=0;i<4;i++) {
-					checkSum[i]=0;
-				}
-				u1_Sum.setText("0");
-				u2_Sum.setText("0");
-				u3_Sum.setText("0");
-				u4_Sum.setText("0");
-				
-				
-				stayButton.setEnabled(true);
 			}
 		}
 	}
